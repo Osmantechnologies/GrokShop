@@ -10,13 +10,13 @@ Goal: real items, real photos, real prices, shipped to the buyer, with no market
 ## How it works
 - **Shelf:** each hour the Worker searches CJ for the shelf lines (`CJ_SHELF`, default 8: earbuds, chargers,
   smart watches, kitchen gadgets, LED lights, skin care, yoga, pet toys), US stock only, verified inventory, then
-  reads each product's US-stock variants. One Grokazon listing per variant (up to 3 per product).
+  reads each product's US-stock variants. One Grokshop listing per variant (up to 3 per product).
   A full round is about 100 calls; CJ free accounts get one call a second, so the shelf fills over a few hours and
   then refreshes once a day.
 - **Price:** CJ cost x 1.5 + $3, rounded up to .99 (`CJ_MARKUP`, `CJ_ADD`). Example: a $11.40 item sells at $20.99.
-  Grokazon's own shipping rule applies on top ($4.99 per seller, free over $35 or with X fast).
+  Grokshop's own shipping rule applies on top ($4.99 per seller, free over $35 or with X fast).
   CJ's US postage (USPS-type, about $4-5) comes out of that margin, plus Stripe's fee.
-- **Seller shown:** "Sold by Grokazon", tag "Ships from US", CJ's own delivery estimate. CJ's name and cost are
+- **Seller shown:** "Sold by Grokshop", tag "Ships from US", CJ's own delivery estimate. CJ's name and cost are
   never shown to buyers.
 - **Orders:** when an order is placed, the CJ items go to CJ as one order, cheapest shipping that arrives within a week.
   - Test orders (no Stripe, or Stripe test keys) -> CJ **sandbox** order: no money, nothing ships.
@@ -43,7 +43,7 @@ CJ's docs say one IP address can serve at most 3 CJ accounts. Cloudflare Workers
 may refuse calls from the deployed Worker. If that happens, the fix is a small sync run from your PC that fills the
 shelf, while orders go out from there too. We'll know on the first deployed call.
 
-## 2. Printful (Grokazon's own merch), not built
+## 2. Printful (Grokshop's own merch), not built
 - Free; "Manual order platform / API" store; private token at once (developers.printful.com).
 - Tees, hoodies, mugs, caps printed per order and shipped from US facilities. Needs designs (generated art).
 

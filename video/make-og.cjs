@@ -23,7 +23,7 @@ const b64 = (f, t) => 'data:' + t + ';base64,' + fs.readFileSync(f).toString('ba
   h1{font-size:54px;line-height:1.05;font-weight:500;letter-spacing:-1px}p{font-size:25px;color:#9aa0a6;line-height:1.3}
   .u{font-size:24px;color:#4AD8EC;font-family:ui-monospace,monospace}</style></head><body>
   <img class="shot" src="${shot}"><div class="fade"></div>
-  <div class="t"><div class="mark">gr<img src="${glyph}">kazon</div><h1>Don't shop.<br>Send Grok.</h1><p>The everything store with Grok built in. Fast delivery included with X.</p><div class="u">grokazon.app</div></div>
+  <div class="t"><div class="mark">gr<img src="${glyph}">kshop</div><h1>Don't shop.<br>Send Grok.</h1><p>The everything store with Grok built in. Fast delivery included with X.</p><div class="u">grokazon.app</div></div>
   </body></html>`, { waitUntil: 'networkidle' });
   await p.evaluate(() => document.fonts.ready);
   await p.screenshot({ path: path.join(A, 'og.jpg'), type: 'jpeg', quality: 88 });

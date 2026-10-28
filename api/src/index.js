@@ -1,4 +1,4 @@
-// GROKAZON helper (Cloudflare Worker). Routes:
+// GROKSHOP helper (Cloudflare Worker). Routes:
 //   GET  /health            what is wired (model, engine, fixture)
 //   POST /ask {q}           filter the catalogue in code, then ONE model call -> {thread, picks, compare, note}
 //   POST /ask?fixture=1     the saved headphones answer (no model spend)
@@ -49,7 +49,7 @@ function deptOf(p) {
 }
 let BASE = '';
 
-// the catalogue = approved seller listings + Grokazon's US-warehouse shelf (CJ) + every connected Shopify store + the demo catalogue (DummyJSON),
+// the catalogue = approved seller listings + Grokshop's US-warehouse shelf (CJ) + every connected Shopify store + the demo catalogue (DummyJSON),
 // refreshed every 30 min per isolate.
 // A store that fails to answer is skipped for that round (logged), never invented.
 let SHOP_INFO = [], CJ_COUNT = 0;
@@ -94,7 +94,7 @@ function rate(req, env) {
   MEM.set(k, { at: Date.now(), val: n + 1 }); return true;
 }
 
-const SYSTEM = `You are Grok, the shopping agent inside Grokazon. A shopper typed a request. You get the candidate products our code already pulled from the merchants' catalogue (real fields only).
+const SYSTEM = `You are Grok, the shopping agent inside Grokshop. A shopper typed a request. You get the candidate products our code already pulled from the merchants' catalogue (real fields only).
 Pick up to 3 products that best fit the request: budget first (never pick over budget unless nothing fits, and then say so), then delivery speed if they asked for it, then fit, rating, seller terms (returns, warranty), price.
 Reply with ONE JSON object and nothing else:
 {"thread": [2-4 short lowercase step lines in Grok Bot's voice that report what you checked, e.g. "beats flex ships in 1-2 business days, airpods in 3-5"],
@@ -155,7 +155,7 @@ async function ask(env, q) {
   const a = m.ask;
   const lead = [
     'reading your constraints' + (a.max != null ? ': budget $' + a.max : '') + (a.fast ? ', fast delivery' : ''),
-    'searching ' + m.merchants + ' sellers' + (CJ_COUNT ? ' and the grokazon us warehouse' : ''),
+    'searching ' + m.merchants + ' sellers' + (CJ_COUNT ? ' and the grokshop us warehouse' : ''),
     m.considered ? 'comparing ' + m.considered + ' matches on price, shipping, seller trust and rating' + (m.over.length && !m.inBudget.length ? ' (none within budget)' : '') : 'no product matches those words'
   ];
   if (!cands.length) return { q, engine: 'filter', thread: lead.concat(['try other words, or a wider budget']), picks: [], compare: [], note: "nothing to cart yet.", considered: 0 };

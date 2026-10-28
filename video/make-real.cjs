@@ -1,5 +1,5 @@
 // Image for the v0.8.0 post (1600x900): three real screenshots of the LIVE grokazon.app: a product with its real-listing
-// link, the Grokazon checkout page, and Stripe's payment page in TEST mode (the preview order it creates is paid with
+// link, the Grokshop checkout page, and Stripe's payment page in TEST mode (the preview order it creates is paid with
 // Stripe's published test card; nothing is charged). node grokazon/video/make-real.cjs -> social/real.jpg
 const { chromium } = require('playwright');
 const path = require('path'), fs = require('fs');
@@ -14,7 +14,7 @@ const b64 = (f, t) => 'data:' + t + ';base64,' + fs.readFileSync(f).toString('ba
   await p.goto(SITE + '/product.html?id=101', { waitUntil: 'networkidle' }); await p.waitForSelector('.refl'); await p.waitForTimeout(600);
   await p.evaluate(() => document.querySelector('.buy').scrollIntoView({ block: 'start' })); await p.waitForTimeout(300);
   await p.screenshot({ path: path.join(OUT, 'ref.png') });
-  // 2) checkout on Grokazon, address typed
+  // 2) checkout on Grokshop, address typed
   await p.evaluate(() => localStorage.setItem('gz.cart', JSON.stringify([{ id: 107, qty: 1 }])));
   await p.goto(SITE + '/checkout.html', { waitUntil: 'networkidle' }); await p.waitForSelector('#ksum .qt', { timeout: 15000 }); await p.waitForTimeout(400);
   await p.fill('input[name=name]', 'Sam Rivera'); await p.fill('input[name=line1]', '200 E Randolph St'); await p.fill('input[name=city]', 'Chicago'); await p.fill('input[name=state]', 'IL'); await p.fill('input[name=zip]', '60601');
@@ -27,7 +27,7 @@ const b64 = (f, t) => 'data:' + t + ';base64,' + fs.readFileSync(f).toString('ba
   const cols = [
     ['ref', 'Real products', ['Every item points at a real listing', 'Real price, checked the same day', 'Same product, or the closest one sold today']],
     ['checkout', 'Real checkout', ['Address, delivery dates, order total', 'One checkout across every seller', 'Your address carries over to payment']],
-    ['stripe', 'Real payment page', ['Stripe handles the card, never Grokazon', 'Test mode for now: nothing is charged', 'Live payments when the first sellers are paid out']]
+    ['stripe', 'Real payment page', ['Stripe handles the card, never Grokshop', 'Test mode for now: nothing is charged', 'Live payments when the first sellers are paid out']]
   ];
   const c = await (await b.newContext({ viewport: { width: 1600, height: 900 } })).newPage();
   await c.setContent(`<!doctype html><html><head><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Geist+Mono:wght@500&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@ const b64 = (f, t) => 'data:' + t + ';base64,' + fs.readFileSync(f).toString('ba
   .col img{width:100%;height:470px;object-fit:cover;object-position:left top;display:block;border-bottom:1px solid rgba(255,255,255,.1)}
   .bd{padding:20px 24px;display:flex;flex-direction:column;gap:12px}.lab{font-size:24px;font-weight:600}
   ul{list-style:none;display:flex;flex-direction:column;gap:9px;font-size:20px;color:#D5D9E2;line-height:1.3}li::before{content:'\\2014  ';color:#555}</style></head><body>
-  <div class="top"><div class="mark">gr<img src="${glyph}">kazon</div><div class="ttl">v0.8: real products, real checkout</div><div class="url">grokazon.app</div></div>
+  <div class="top"><div class="mark">gr<img src="${glyph}">kshop</div><div class="ttl">v0.8: real products, real checkout</div><div class="url">grokazon.app</div></div>
   <div class="cols">${cols.map(k => `<div class="col"><img src="${b64(path.join(OUT, k[0] + '.png'), 'image/png')}"><div class="bd"><div class="lab">${k[1]}</div><ul>${k[2].map(x => '<li>' + x + '</li>').join('')}</ul></div></div>`).join('')}</div>
   </body></html>`, { waitUntil: 'networkidle' });
   await c.evaluate(() => document.fonts.ready);

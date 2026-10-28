@@ -49,7 +49,7 @@ ok('one listing per US-stock variant; China-only stock dropped', items.length ==
 const blk = items[0], pur = items[1];
 ok('cheapest variant first, its own photo first', blk.id === 'c-V-BLK' && blk.thumbnail === 'https://cf.cjdropshipping.com/blk.jpg' && blk.images.length === 3);
 ok('title names the option', blk.title === 'Non-slip Yoga Mat - Black' && pur.title === 'Non-slip Yoga Mat - Purple');
-ok('sold by Grokazon, from a US warehouse, with CJ\'s delivery estimate', blk.merchant === 'Grokazon' && blk.shippingInformation === 'Delivered in 2-5 days from a US warehouse', blk.shippingInformation);
+ok('sold by Grokshop, from a US warehouse, with CJ\'s delivery estimate', blk.merchant === 'Grokshop' && blk.shippingInformation === 'Delivered in 2-5 days from a US warehouse', blk.shippingInformation);
 ok('real US stock, no invented rating, CJ sub-category for the breadcrumb', blk.stock === 60 && blk.rating === null && blk.dept === 'sports' && blk.category === 'Yoga Mats');
 ok('shelf hidden while CJ_ON is not 1', (await shelf({ CJ_API_KEY: 'k' })).length === 0);
 
@@ -61,7 +61,7 @@ const fr = calls.find(c => c.path === '/logistic/freightCalculate'), cr = calls.
 ok('shipping quoted from the US warehouse', fr.body.startCountryCode === 'US' && fr.body.endCountryCode === 'US' && fr.body.products[0].vid === 'V-BLK' && fr.body.products[0].quantity === 2);
 ok('cheapest method that arrives within a week (not the 10-20 day one)', cr.body.logisticName === 'USPS+', cr.body.logisticName);
 ok('test order -> CJ sandbox, created unpaid', cr.body.isSandbox === 1 && cr.body.payType === 3 && cr.body.fromCountryCode === 'US');
-ok('only CJ lines are sent, with the Grokazon order number', cr.body.products.length === 1 && cr.body.orderNumber === 'GZ-TEST1' && cr.body.products[0].storeLineItemId === 'GZ-TEST1-0');
+ok('only CJ lines are sent, with the Grokshop order number', cr.body.products.length === 1 && cr.body.orderNumber === 'GZ-TEST1' && cr.body.products[0].storeLineItemId === 'GZ-TEST1-0');
 ok('CJ order id + cost kept on the order', o.cj.orderId === 'CJ-777' && o.cj.postage === 4.71 && o.cj.cost === 21.51 && o.lines[0].fulfil === 'cj' && !o.lines[1].fulfil);
 await placeCjOrder(env, o);
 ok('placing twice does nothing', calls.filter(c => c.path === '/shopping/order/createOrderV2').length === 1);

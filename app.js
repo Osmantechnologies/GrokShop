@@ -1,4 +1,4 @@
-/* GROKAZON app: catalogue, product cards, cart, missions, the ask flow, and each page's setup (body[data-page]). */
+/* GROKSHOP app: catalogue, product cards, cart, missions, the ask flow, and each page's setup (body[data-page]). */
 (function () {
   'use strict';
   var G = window.GZ, C = G.C, $ = G.$, $$ = G.$$, esc = G.esc;
@@ -279,7 +279,7 @@
     var counts = {}; list.forEach(function (p) { var m = merchant(p); counts[m] = (counts[m] || 0) + 1; });
     var shopNames = {}; list.forEach(function (p) { if (isShop(p)) shopNames[merchant(p)] = 'Shopify store'; });
     var top = Object.keys(counts).sort(function (a, b) { return (shopNames[b] ? 1 : 0) - (shopNames[a] ? 1 : 0) || counts[b] - counts[a]; }).slice(0, 6);
-    $('#f2').innerHTML = '<div class="win-bar"><i></i><i></i><i></i><span class="t">Sellers on Grokazon</span></div><div style="padding:6px 16px 10px">' +
+    $('#f2').innerHTML = '<div class="win-bar"><i></i><i></i><i></i><span class="t">Sellers on Grokshop</span></div><div style="padding:6px 16px 10px">' +
       top.map(function (m, i) { return '<div class="mrow">' + avatar(m, i + 1, 'sm') + '<div class="n">' + esc(m) + '<small>' + counts[m] + ' products</small></div><span class="tag' + (shopNames[m] ? ' ok' : '') + '">' + (shopNames[m] || 'seller') + '</span></div>'; }).join('') +
       '<div class="mrow"><span class="av sm w" aria-hidden="true">+</span><div class="n">Your Shopify store<small>joins with its own API key, never scraped</small></div><span class="tag ok">permitted API</span></div></div>';
   }
@@ -328,7 +328,7 @@
       catalogue().catch(function () { });
       return;
     }
-    document.title = q + ' · Grokazon';
+    document.title = q + ' · Grokshop';
     $('#winTitle').textContent = q.length > 60 ? q.slice(0, 57) + '…' : q;
     $('#fq').placeholder = 'Ask a follow-up, or a new search';
     th.insertAdjacentHTML('beforeend', msgUser(q));
@@ -420,7 +420,7 @@
         '' : '';
     }).catch(function () { $('#sellCard').innerHTML = '<div class="empty">The store did not load.</div>'; });
     var f = $('#applyForm'), err = $('#applyErr'), go = $('#applyGo');
-    if (!API) { $('#applyNote').textContent = 'Requests open as soon as the Grokazon helper is online.'; go.disabled = true; go.textContent = 'Opening soon'; }
+    if (!API) { $('#applyNote').textContent = 'Requests open as soon as the Grokshop helper is online.'; go.disabled = true; go.textContent = 'Opening soon'; }
     f.addEventListener('submit', function (e) {
       e.preventDefault(); err.textContent = '';
       var body = { store: f.store.value.trim(), x: f.x.value.trim(), products: f.products.value, note: f.note.value.trim() };
@@ -431,9 +431,9 @@
         .then(function (j) {
           f.hidden = true;
           $('#applyDone').hidden = false;
-          $('#applyDone').innerHTML = '<div class="thread" style="padding:0">' + msgBot('<p>got it. ' + esc(j.store) + ' is on the list. requests are read by hand while grokazon is a concept' + (body.x ? ', and the reply comes on X to @' + esc(body.x.replace(/^@/, '')) : '') + '.</p>') + '</div>';
+          $('#applyDone').innerHTML = '<div class="thread" style="padding:0">' + msgBot('<p>got it. ' + esc(j.store) + ' is on the list. requests are read by hand while grokshop is a concept' + (body.x ? ', and the reply comes on X to @' + esc(body.x.replace(/^@/, '')) : '') + '.</p>') + '</div>';
         })
-        .catch(function (e2) { err.textContent = /Failed to fetch|abort/i.test(e2.message || '') ? 'Could not reach Grokazon. Try again in a minute.' : e2.message; go.disabled = false; go.textContent = 'Send request'; });
+        .catch(function (e2) { err.textContent = /Failed to fetch|abort/i.test(e2.message || '') ? 'Could not reach Grokshop. Try again in a minute.' : e2.message; go.disabled = false; go.textContent = 'Send request'; });
     });
   };
 

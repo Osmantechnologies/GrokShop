@@ -1,2 +1,2 @@
-# grokazon.app/api/* -> the Grokazon helper (Cloudflare Worker); visitors only ever see grokazon.app
+# grokazon.app/api/* -> the Grokshop helper (Cloudflare Worker); visitors only ever see grokazon.app
 /api/*  https://grokshop-api.YOUR-ACCOUNT.workers.dev/:splat  200!

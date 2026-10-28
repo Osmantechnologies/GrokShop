@@ -1,10 +1,10 @@
-// Headless QA of the GROKAZON store at 430x932 and 1280x800: node grokazon/qa/shots.cjs [--live]
+// Headless QA of the GROKSHOP store at 430x932 and 1280x800: node grokazon/qa/shots.cjs [--live]
 // Needs the site on :5445 (preview "grokazon") and the helper on :8806 (preview "grokazon-api", wrangler dev: local KV).
 // Default: no model spend (Grok results use ?fixture=1). --live also runs one real /ask and the helper-down fallback.
 // Store flow: home -> search + filters -> product -> cart -> test checkout -> order page -> Your orders -> return with
 // Grok; Seller Central listing (photo upload) -> review queue approve -> listed in the store; Ask Grok; missions; sell
 // form; X sign-in preview + a signed-in test session. Every page: zero console errors, nothing wider than the screen,
-// no broken images, no password/card fields on Grokazon, the footer concept line. Screens land in qa/shots/.
+// no broken images, no password/card fields on Grokshop, the footer concept line. Screens land in qa/shots/.
 const { chromium } = require('playwright');
 const path = require('path'), fs = require('fs'), os = require('os');
 const out = path.join(__dirname, 'shots'); fs.mkdirSync(out, { recursive: true });
@@ -36,7 +36,7 @@ const photoReady = fetch('https://cdn.dummyjson.com/product-images/home-decorati
       check(`${vp} ${name}: fits the screen`, f.sw <= w, 'scrollWidth ' + f.sw);
       check(`${vp} ${name}: no broken images`, !f.broken.length, f.broken.join(' '));
       check(`${vp} ${name}: no card or password fields`, f.pay === 0);
-      check(`${vp} ${name}: footer has @grokazonapp, no concept or catalogue lines`, /@grokazonapp/.test(f.foot) && !/Not affiliated|DummyJSON|mock\.shop|v0\./.test(f.foot));
+      check(`${vp} ${name}: footer has @AdeliaCmartins, no concept or catalogue lines`, /@AdeliaCmartins/.test(f.foot) && !/Not affiliated|DummyJSON|mock\.shop|v0\./.test(f.foot));
     };
     const shot = async (name, full) => { await page.screenshot({ path: path.join(out, `${name}-${vp}.png`) }); if (full) await page.screenshot({ path: path.join(out, `${name}-${vp}-full.png`), fullPage: true }); };
 
@@ -86,7 +86,7 @@ const photoReady = fetch('https://cdn.dummyjson.com/product-images/home-decorati
     await page.goto(SITE + '/product.html?id=s-audio-3085', { waitUntil: 'networkidle' }); await page.waitForSelector('.buy');
     const sp = await page.evaluate(() => ({ tags: document.querySelector('.facts .badges').innerText, stars: document.querySelector('.facts .stars').innerText, dl: document.querySelector('.buy .dl').innerText }));
     const spRev = await page.evaluate(() => (document.querySelector('.revs') || {}).innerText || '');
-    check(`${vp} Shopify store product: no source/test label, rating only from verified Grokazon reviews, the store's own delivery promise`, !/test store|Shopify/i.test(sp.tags) && (/no ratings yet/.test(sp.stars) || /Verified purchase/.test(spRev)) && /business day|Ships in|delivery/i.test(sp.dl) && !/set by the seller/.test(sp.dl), JSON.stringify(sp));
+    check(`${vp} Shopify store product: no source/test label, rating only from verified Grokshop reviews, the store's own delivery promise`, !/test store|Shopify/i.test(sp.tags) && (/no ratings yet/.test(sp.stars) || /Verified purchase/.test(spRev)) && /business day|Ships in|delivery/i.test(sp.dl) && !/set by the seller/.test(sp.dl), JSON.stringify(sp));
     await page.click('#addc');
     await page.goto(SITE + '/product.html?id=99999', { waitUntil: 'networkidle' }); await page.waitForTimeout(300);
     check(`${vp} product: unknown id says so`, (await page.textContent('#pdp')).includes('not in the store'));
@@ -108,10 +108,10 @@ const photoReady = fetch('https://cdn.dummyjson.com/product-images/home-decorati
     await shot('checkout', true); await common('checkout');
     const viaStripe = /Continue to payment/.test(await page.textContent('#place'));
     await page.click('#place');
-    if (viaStripe) {   // Stripe TEST mode: the published test card, the address already filled from Grokazon's page
+    if (viaStripe) {   // Stripe TEST mode: the published test card, the address already filled from Grokshop's page
       await page.waitForURL(/checkout\.stripe\.com/, { timeout: 30000 }); await page.waitForSelector('#cardNumber', { timeout: 45000 }); await page.waitForTimeout(1500);
       const pre = await page.evaluate(() => [...document.querySelectorAll('input')].map(i => i.value).join(' | '));
-      check(`${vp} Stripe test page: address carried over from Grokazon's checkout`, /QA Buyer/.test(pre) && /500 Congress Ave/.test(pre) && /Austin/.test(pre), pre.slice(0, 120));
+      check(`${vp} Stripe test page: address carried over from Grokshop's checkout`, /QA Buyer/.test(pre) && /500 Congress Ave/.test(pre) && /Austin/.test(pre), pre.slice(0, 120));
       await page.fill('#email', 'qa-buyer@example.com').catch(() => { });
       await page.fill('#cardNumber', '4242424242424242'); await page.fill('#cardExpiry', '12 / 34'); await page.fill('#cardCvc', '123');
       const bn = await page.$('#billingName'); if (bn && await bn.isVisible()) await bn.fill('QA Buyer');

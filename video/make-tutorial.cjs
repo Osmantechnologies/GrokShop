@@ -40,7 +40,7 @@ const b64 = (f, t) => 'data:' + t + ';base64,' + fs.readFileSync(f).toString('ba
   .cap{flex:1;display:flex;align-items:center;gap:14px;padding:0 18px}
   .cap b{font-family:'Geist Mono',monospace;font-size:20px;color:#000;background:#4AD8EC;border-radius:9999px;width:36px;height:36px;display:grid;place-items:center;flex:none}
   .cap .h{font-size:21px;font-weight:600}.cap .d{font-size:16px;color:#9aa0a6}</style></head><body>
-  <div class="top"><div class="mark">gr<img src="${glyph}">kazon</div><div class="ttl">How to shop with Grok in 4 steps</div><div class="url">grokazon.app</div></div>
+  <div class="top"><div class="mark">gr<img src="${glyph}">kshop</div><div class="ttl">How to shop with Grok in 4 steps</div><div class="url">grokazon.app</div></div>
   <div class="grid">${steps.map(s => `<div class="cell"><img class="s" src="${b64(path.join(OUT, s[0] + '.png'), 'image/png')}"><div class="cap"><b>${s[0]}</b><div><div class="h">${s[1]}</div><div class="d">${s[2]}</div></div></div></div>`).join('')}</div>
   </body></html>`, { waitUntil: 'networkidle' });
   await c.evaluate(() => document.fonts.ready);

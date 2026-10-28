@@ -26,7 +26,7 @@ REF_ONLY = "1"
 # Keys are secrets (EBAY_CLIENT_ID, EBAY_CLIENT_SECRET; locally in .dev.vars). EBAY_RANK = "1" only if eBay allows Grok to highlight eBay items.
 EBAY_ENV = "sandbox"
 EBAY_RANK = "0"
-# Grokazon's own US-warehouse shelf (cj.js): real products stocked in CJ Dropshipping's US warehouses, sold by Grokazon.
+# Grokshop's own US-warehouse shelf (cj.js): real products stocked in CJ Dropshipping's US warehouses, sold by Grokshop.
 # Key is a secret: npx wrangler secret put CJ_API_KEY (locally CJ_API_KEY=... in .dev.vars). CJ_ON = "1" shows the shelf.
 # Price = CJ cost x CJ_MARKUP + CJ_ADD, rounded up to .99. Test orders go to CJ as sandbox orders (no money, nothing ships);
 # live orders are created at CJ unpaid unless CJ_AUTOPAY = "1" (then paid from the owner's CJ balance).
@@ -35,7 +35,7 @@ CJ_MARKUP = "1.5"
 CJ_ADD = "3"
 CJ_RETURNS = "30 days return policy"
 CJ_AUTOPAY = "0"
-# Seller payouts (Stripe Connect): Grokazon's fee on each sale, in basis points (0 = none).
+# Seller payouts (Stripe Connect): Grokshop's fee on each sale, in basis points (0 = none).
 PLATFORM_FEE_BPS = "0"
 # Sign in with X (xauth.js): the X app's OAuth 2.0 Client ID (public). The Client Secret is a secret:
 #   npx wrangler secret put X_CLIENT_SECRET     (locally: X_CLIENT_SECRET=... in .dev.vars)

@@ -1,7 +1,7 @@
-// The Amazon side of Grokazon: one cart, one checkout, orders, returns, seller listings, and the owner's review queue.
+// The Amazon side of Grokshop: one cart, one checkout, orders, returns, seller listings, and the owner's review queue.
 //
 // Orders     POST /orders/checkout {lines:[{id,qty}]}  -> Stripe Checkout (test mode) when STRIPE_SECRET_KEY is set:
-//                                                          card + address are typed on Stripe's page, never on Grokazon.
+//                                                          card + address are typed on Stripe's page, never on Grokshop.
 //                                                          Without the key: a TEST order (no payment, nothing ships).
 //            GET  /orders/confirm?sid=   GET /orders   POST /orders/return {order, line, reason}
 // Listings   POST /seller/listings {title, description, price, stock, dept, shipsIn, returns, images:[dataURL]}
@@ -19,7 +19,7 @@ export const DEPTS = ['electronics', 'home', 'grocery', 'beauty', 'fashion', 'sp
 // whose orders / listings: the signed-in X account, else this browser's random id
 export function ownerKey(who, device) { return who ? (who.wallet ? 'w' + who.wallet : 'x' + who.xId) : (DEV_RE.test(device || '') ? 'd' + device : ''); }   // an X account, a wallet, or this browser
 
-/* ---------- shipping: Grokazon's own rule, per seller ----------
+/* ---------- shipping: Grokshop's own rule, per seller ----------
    Free when every item from that seller ships within a working week (X fast) and the shopper is signed in with a paid
    X plan; free on $35+ from one seller; otherwise $4.99 per seller. Tax is added by the payment page (Stripe Tax) when
    the owner turns it on (STRIPE_TAX=1); test orders carry no tax. */
@@ -50,7 +50,7 @@ function orderLine(l, i) {
   const p = l.p;
   return { n: i, id: p.id, title: p.title, thumbnail: p.thumbnail, price: p.price, qty: l.qty, seller: sellerName(p), shipsIn: p.shippingInformation || '', returns: p.returnPolicy || '', status: 'ordered' };
 }
-// who sells each line: a Grokazon seller's listing, or a connected Shopify store's owner (private: never sent to buyers)
+// who sells each line: a Grokshop seller's listing, or a connected Shopify store's owner (private: never sent to buyers)
 async function sellerOwners(env, o) {
   for (const l of o.lines) {
     let owner = '';
@@ -83,7 +83,7 @@ async function saveOrder(env, owner, o) {
 export async function checkout(env, products, body, owner, siteOrigin, who) {
   if (!owner) return { status: 400, body: { error: 'Missing browser id.' } };
   const eb = (Array.isArray(body.lines) ? body.lines : []).filter(l => /^e-/.test(String(l.id)));
-  if (eb.length && env.STRIPE_SECRET_KEY) return { status: 400, body: { error: 'eBay items check out through eBay\u2019s own checkout, which opens once eBay approves Grokazon. Remove them to pay for the rest.' } };
+  if (eb.length && env.STRIPE_SECRET_KEY) return { status: 400, body: { error: 'eBay items check out through eBay\u2019s own checkout, which opens once eBay approves Grokshop. Remove them to pay for the rest.' } };
   if (eb.length) { const { ebayItem } = await import('./ebay.js'); for (const l of eb.slice(0, 10)) { try { const it = await ebayItem(env, l.id); if (it) products = products.concat([it]); } catch (e) { } } }
   const lines = linesFrom(products, body.lines);
   if (!lines.length) return { status: 400, body: { error: 'Your cart is empty.' } };
@@ -92,7 +92,7 @@ export async function checkout(env, products, body, owner, siteOrigin, who) {
   const o = { id: 'GZ-' + hex(5).toUpperCase(), owner, at: Date.now(), lines: lines.map(orderLine), items: q.items, shipping: q.shipping, shippingBy: q.groups, total: q.total, currency: 'USD', xfast: !!(who && who.fast),
     shipTo: { city: String(w.city || '').slice(0, 60), zip: String(w.zip || '').slice(0, 12), cc } };
   const st = body.shipTo || {}, s = (k, n) => String(st[k] || '').replace(/[\u0000-\u001f<>]/g, '').trim().slice(0, n);
-  if (s('name', 60) && s('line1', 100)) o.shipTo = { name: s('name', 60), line1: s('line1', 100), line2: s('line2', 100), city: s('city', 60) || o.shipTo.city, state: s('state', 40), zip: s('zip', 12) || o.shipTo.zip, cc };   // preview orders: the address from Grokazon's checkout page (paid orders take Stripe's)
+  if (s('name', 60) && s('line1', 100)) o.shipTo = { name: s('name', 60), line1: s('line1', 100), line2: s('line2', 100), city: s('city', 60) || o.shipTo.city, state: s('state', 40), zip: s('zip', 12) || o.shipTo.zip, cc };   // preview orders: the address from Grokshop's checkout page (paid orders take Stripe's)
   await sellerOwners(env, o);
   if (!env.STRIPE_SECRET_KEY) {   // no payments set up yet: a clearly labelled test order
     o.mode = 'test'; o.status = 'placed';
@@ -115,7 +115,7 @@ export async function checkout(env, products, body, owner, siteOrigin, who) {
   f.set('shipping_options[0][shipping_rate_data][fixed_amount][currency]', 'usd');
   f.set('shipping_options[0][shipping_rate_data][display_name]', q.shipping ? 'Shipping' : 'Free shipping');
   if (env.STRIPE_TAX === '1') f.set('automatic_tax[enabled]', 'true');
-  if (o.shipTo.name && o.shipTo.line1) {   // the address typed on Grokazon's checkout page is pre-filled on Stripe's page
+  if (o.shipTo.name && o.shipTo.line1) {   // the address typed on Grokshop's checkout page is pre-filled on Stripe's page
     const c = new URLSearchParams({ name: o.shipTo.name, 'shipping[name]': o.shipTo.name, 'shipping[address][line1]': o.shipTo.line1, 'shipping[address][line2]': o.shipTo.line2 || '', 'shipping[address][city]': o.shipTo.city || '', 'shipping[address][state]': o.shipTo.state || '', 'shipping[address][postal_code]': o.shipTo.zip || '', 'shipping[address][country]': cc || 'US', 'metadata[order]': o.id });
     const cr = await fetch('https://api.stripe.com/v1/customers', { method: 'POST', headers: { authorization: 'Bearer ' + env.STRIPE_SECRET_KEY, 'content-type': 'application/x-www-form-urlencoded' }, body: c.toString() }).then(r => r.json()).catch(() => ({}));
     if (cr.id) { f.set('customer', cr.id); f.set('customer_update[shipping]', 'auto'); }
@@ -193,7 +193,7 @@ export async function addReview(env, body, owner, who) {
   l.reviewed = rating; await kv(env).put('order:' + o.id, JSON.stringify(o), { expirationTtl: 400 * 86400 });
   return { status: 200, body: { review: r } };
 }
-// every Grokazon review, grouped by product id (merged into the catalogue)
+// every Grokshop review, grouped by product id (merged into the catalogue)
 export async function allReviews(env) {
   const store = kv(env); if (!store.list) return new Map();
   const l = await store.list({ prefix: 'review:' }).catch(() => ({ keys: [] }));
@@ -243,7 +243,7 @@ export async function createListing(env, body, owner, who) {
   const L = {
     id: 'l-' + hex(6), owner, status: 'in review', at: Date.now(), title, description: String(body.description || '').slice(0, 1500), price,
     stock: Math.max(0, Math.min(99999, body.stock | 0)), dept, shippingInformation: String(body.shipsIn || '').slice(0, 60), returnPolicy: String(body.returns || '').slice(0, 60),
-    seller: String(body.store || (who ? (who.wallet ? who.username : '@' + who.username) : '') || 'Grokazon seller').trim().slice(0, 40), sellerX: who && !who.wallet ? who.username : '', images: ids
+    seller: String(body.store || (who ? (who.wallet ? who.username : '@' + who.username) : '') || 'Grokshop seller').trim().slice(0, 40), sellerX: who && !who.wallet ? who.username : '', images: ids
   };
   await kv(env).put('listing:' + L.id, JSON.stringify(L));
   const k = 'listings:' + owner, list = JSON.parse((await kv(env).get(k)) || '[]'); list.unshift(L.id); await kv(env).put(k, JSON.stringify(list.slice(0, 500)));

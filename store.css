@@ -1,4 +1,4 @@
-/* GROKAZON store: Amazon's structure in the Grok skin. Reads tokens.css; loads after site.css. Mobile first. */
+/* GROKSHOP store: Amazon's structure in the Grok skin. Reads tokens.css; loads after site.css. Mobile first. */
 :root { --nav-h: 0px; }
 html { scroll-padding-top: 160px; }
 @media (min-width: 900px) { html { scroll-padding-top: 116px; } }

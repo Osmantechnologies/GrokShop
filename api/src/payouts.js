@@ -1,7 +1,7 @@
 // Seller payouts with Stripe Connect (Express accounts, "separate charges and transfers").
-// The shopper pays Grokazon once at checkout; once Stripe says the order is paid, each seller with a connected Stripe
-// account receives a transfer for their part (their items + their shipping - Grokazon's fee, PLATFORM_FEE_BPS, 0 now).
-// Sellers set up and manage payouts on Stripe's own pages; Grokazon never sees their bank details.
+// The shopper pays Grokshop once at checkout; once Stripe says the order is paid, each seller with a connected Stripe
+// account receives a transfer for their part (their items + their shipping - Grokshop's fee, PLATFORM_FEE_BPS, 0 now).
+// Sellers set up and manage payouts on Stripe's own pages; Grokshop never sees their bank details.
 // Records: KV payout:<owner> = { acct, at } ; each order line keeps { transfer, paidOut } once sent.
 import { kv } from './missions.js';
 
@@ -27,7 +27,7 @@ export async function startPayouts(env, owner, who, siteOrigin, cc) {
   if (!env.STRIPE_SECRET_KEY) return { status: 400, body: { error: 'Payments are not switched on yet.' } };
   let p = await rec(env, owner);
   if (!p) {
-    const a = await stripe(env, '/accounts', { type: 'express', country: /^[A-Z]{2}$/.test(cc || '') ? cc : 'US', 'capabilities[transfers][requested]': 'true', 'business_profile[url]': 'https://grokazon.app', 'metadata[grokazon_owner]': owner, ...(who ? { 'metadata[x]': '@' + who.username } : {}) });
+    const a = await stripe(env, '/accounts', { type: 'express', country: /^[A-Z]{2}$/.test(cc || '') ? cc : 'US', 'capabilities[transfers][requested]': 'true', 'business_profile[url]': 'https://grokazon.app', 'metadata[grokshop_owner]': owner, ...(who ? { 'metadata[x]': '@' + who.username } : {}) });
     p = { acct: a.id, at: Date.now() }; await kv(env).put('payout:' + owner, JSON.stringify(p));
   }
   const link = await stripe(env, '/account_links', { account: p.acct, type: 'account_onboarding', refresh_url: siteOrigin + '/seller.html#payouts', return_url: siteOrigin + '/seller.html#payouts' });

@@ -1,4 +1,4 @@
-# eBay Buy API application — Grokazon (draft for the owner to submit)
+# eBay Buy API application — Grokshop (draft for the owner to submit)
 
 Where: join the eBay Partner Network (https://partnernetwork.ebay.com) as a publisher, then submit the **Buy API
 Application** linked from https://developer.ebay.com/api-docs/buy/buy-requirements.html. After EPN approves, open a
@@ -8,15 +8,15 @@ Copy the answers below into the form. Edit anything that is not true for you bef
 
 ---
 
-**Company / app name:** Grokazon (https://grokazon.app)
+**Company / app name:** Grokshop (https://grokazon.app)
 
-**Contact on X:** @grokazonapp
+**Contact on X:** @AdeliaCmartins
 
 **APIs requested:** Browse API (production). Order API checkout (member checkout or guest checkout with the "Checkout
-with eBay" widget), so shoppers can buy eBay items without leaving Grokazon.
+with eBay" widget), so shoppers can buy eBay items without leaving Grokshop.
 
 **Business model (short):**
-Grokazon is a shopping site with an AI shopping assistant (Grok) built in. Shoppers describe what they need ("wireless
+Grokshop is a shopping site with an AI shopping assistant (Grok) built in. Shoppers describe what they need ("wireless
 headphones under $150, delivered this week"); the assistant searches participating sources and explains each option:
 price, shipping cost and time, return policy and seller feedback. We want eBay listings to be one of those sources, with
 purchases completed through eBay's own checkout so eBay sellers are paid by eBay and eBay's buyer protection applies.
@@ -33,7 +33,7 @@ We earn through the eBay Partner Network (affiliate tracking on every eBay item 
 
 **Checkout:** through eBay's Order API checkout session (or the Checkout with eBay widget for guests). We collect the
 buyer's email and full billing and shipping address only as eBay's checkout requires, and we never show the guest purchase
-order ID. Grokazon does not take payment for eBay items.
+order ID. Grokshop does not take payment for eBay items.
 
 **Data:** item data is fetched live per search and kept only briefly to show results; we do not resell or publish eBay data
 outside the shopping flow.
@@ -45,7 +45,7 @@ outside the shopping flow.
 ---
 
 Notes for the owner (do not paste):
-- You chose "Grokazon checkout for everything". eBay's rules make eBay items pay through eBay's own checkout (inside
-  Grokazon, via their API or widget). Grokazon sellers and Shopify stores still use Grokazon's Stripe checkout.
+- You chose "Grokshop checkout for everything". eBay's rules make eBay items pay through eBay's own checkout (inside
+  Grokshop, via their API or widget). Grokshop sellers and Shopify stores still use Grokshop's Stripe checkout.
 - eBay says partners may not re-sort eBay results. The application asks eBay directly whether Grok may highlight a pick.
-- Approval is not guaranteed and can take weeks. Real Grokazon sellers can go live before it.
+- Approval is not guaranteed and can take weeks. Real Grokshop sellers can go live before it.

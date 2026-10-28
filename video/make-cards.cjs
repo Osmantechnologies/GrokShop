@@ -23,7 +23,7 @@ const css = `<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400
 .lt{position:absolute;left:64px;bottom:64px;display:flex;align-items:center;gap:22px;padding:22px 34px 22px 22px;border-radius:9999px;background:rgba(10,10,10,.86);border:1px solid rgba(255,255,255,.14);box-shadow:0 20px 60px rgba(0,0,0,.5);font-size:36px;font-weight:500;letter-spacing:-.3px}
 .lt b{font-family:'Geist Mono',monospace;font-weight:500;font-size:28px;color:#000;background:#4AD8EC;border-radius:9999px;padding:8px 16px}
 .lt img{width:46px;height:46px;border-radius:50%}</style>`;
-const mark = `<div class="mark">gr<img src="${GLYPH}">kazon</div>`;
+const mark = `<div class="mark">gr<img src="${GLYPH}">kshop</div>`;
 (async () => {
   const b = await chromium.launch(); const p = await (await b.newContext({ viewport: { width: 1920, height: 1080 } })).newPage();
   const shoot = async (name, body, transparent) => {
@@ -32,7 +32,7 @@ const mark = `<div class="mark">gr<img src="${GLYPH}">kazon</div>`;
     await p.screenshot({ path: path.join(OUT, name + '.png'), omitBackground: !!transparent });
   };
   await shoot('opener', `<div class="full">${mark}<div class="big">Amazon is blocking Grok Bots.</div><div class="sub">So here is a store built for them.</div></div>`);
-  await shoot('closer', `<div class="full">${mark}<div class="big">Don't shop. Send Grok.</div><div class="url">grokazon.app</div><div class="sub">@grokazonapp</div></div>`);
+  await shoot('closer', `<div class="full">${mark}<div class="big">Don't shop. Send Grok.</div><div class="url">grokazon.app</div><div class="sub">@AdeliaCmartins</div></div>`);
   let i = 1;
   for (const [id, text] of Object.entries(STEPS)) await shoot('lt-' + id, `<div class="lt"><img src="${GLYPH}"><b>${String(i++).padStart(2, '0')}</b>${text}</div>`, true);
   await b.close(); console.log('cards', fs.readdirSync(OUT).join(' '));

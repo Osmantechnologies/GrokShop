@@ -1,4 +1,4 @@
-/* GROKAZON layout. Reads tokens.css only. Mobile first (430px), desktop from 900px. */
+/* GROKSHOP layout. Reads tokens.css only. Mobile first (430px), desktop from 900px. */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; scroll-padding-top: calc(var(--nav-h) + 12px); }
 body { margin: 0; background: var(--bg); color: var(--ink); font: 400 16px/1.5 var(--font); -webkit-font-smoothing: antialiased; overflow-x: hidden; }

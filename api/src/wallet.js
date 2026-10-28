@@ -1,6 +1,6 @@
 // Sign in with a Solana wallet (Phantom, Solflare, Backpack: anything that signs messages). The wallet signs ONE
 // plain-text message holding a one-time nonce; nothing is sent on-chain, no fee, no token approval. The signature is
-// checked here (Ed25519, WebCrypto) and the browser gets the same kind of 30-day Grokazon session id as an X sign-in.
+// checked here (Ed25519, WebCrypto) and the browser gets the same kind of 30-day Grokshop session id as an X sign-in.
 //   POST /auth/wallet/nonce  {address}                      -> {message}   (the exact text the wallet must sign)
 //   POST /auth/wallet/verify {address, signature, message}  -> {sid, me}   (signature: base64 of the 64 raw bytes)
 import { kv } from './missions.js';
@@ -29,7 +29,7 @@ export async function nonce(env, body) {
   if (!validAddress(address)) return { status: 400, body: { error: 'That does not look like a Solana address.' } };
   const n = hex(16), issued = new Date().toISOString();
   await kv(env).put('wnonce:' + address, JSON.stringify({ n, issued }), { expirationTtl: NONCE_MIN * 60 });
-  const message = 'Sign in to Grokazon\n\nThis signature only proves you hold this wallet. It is not a transaction and costs nothing.\n\nWallet: ' + address + '\nNonce: ' + n + '\nIssued: ' + issued;
+  const message = 'Sign in to Grokshop\n\nThis signature only proves you hold this wallet. It is not a transaction and costs nothing.\n\nWallet: ' + address + '\nNonce: ' + n + '\nIssued: ' + issued;
   return { status: 200, body: { message } };
 }
 export async function verify(env, body) {
@@ -38,7 +38,7 @@ export async function verify(env, body) {
   const rec = JSON.parse((await kv(env).get('wnonce:' + address)) || 'null');
   if (!rec) return { status: 400, body: { error: 'That sign-in request expired. Try again.' } };
   const m = message.match(/\nNonce: ([a-f0-9]{32})\n/);
-  if (!m || m[1] !== rec.n || message.indexOf('Wallet: ' + address + '\n') < 0 || !message.startsWith('Sign in to Grokazon')) return { status: 400, body: { error: 'The signed message does not match.' } };
+  if (!m || m[1] !== rec.n || message.indexOf('Wallet: ' + address + '\n') < 0 || !message.startsWith('Sign in to Grokshop')) return { status: 400, body: { error: 'The signed message does not match.' } };
   let sig = b64decode(body.signature);   // base64 of the 64 bytes; a base58 string (Solflare/Backpack style) also reads as base64 text, so check the length
   if (!sig || sig.length !== 64) sig = b58decode(String(body.signature || ''));
   if (!sig || sig.length !== 64) return { status: 400, body: { error: 'Bad signature.' } };

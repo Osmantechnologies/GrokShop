@@ -1,7 +1,7 @@
 // Sign in with X (OAuth 2.0 Authorization Code + PKCE, confidential "Web App" client).
-// Grokazon asks X for read-only scopes (users.read tweet.read), reads the profile ONCE (name, @handle, avatar and the
+// Grokshop asks X for read-only scopes (users.read tweet.read), reads the profile ONCE (name, @handle, avatar and the
 // X plan: subscription_type = Basic | Premium | PremiumPlus | None) and then forgets X's token. It never posts, never
-// reads posts or DMs, never sees a password. The browser keeps a random Grokazon session id (30 days) and sends it as
+// reads posts or DMs, never sees a password. The browser keeps a random Grokshop session id (30 days) and sends it as
 // "Authorization: Bearer <id>"; nothing is a cross-site cookie, so Safari works.
 // Needs: var X_CLIENT_ID, secret X_CLIENT_SECRET, and this callback registered in the X app:
 //   https://grokshop-api.YOUR-ACCOUNT.workers.dev/auth/x/callback   (and http://127.0.0.1:8806/auth/x/callback locally)
@@ -40,11 +40,11 @@ export async function start(req, env, url) {
   return Response.redirect(AUTHORIZE + '?' + q.toString(), 302);
 }
 
-// GET /auth/x/callback?code&state  -> profile once -> Grokazon session -> back to the page
+// GET /auth/x/callback?code&state  -> profile once -> Grokshop session -> back to the page
 export async function callback(req, env, url) {
   const state = url.searchParams.get('state') || '', code = url.searchParams.get('code') || '';
   const saved = state && JSON.parse((await kv(env).get('oauth:' + state)) || 'null');
-  if (!saved) return new Response('This sign-in link expired. Go back to Grokazon and try again.', { status: 400 });
+  if (!saved) return new Response('This sign-in link expired. Go back to Grokshop and try again.', { status: 400 });
   if (kv(env).delete) await kv(env).delete('oauth:' + state);
   if (url.searchParams.get('error') || !code) return back(saved.ret, 'gzx=cancelled');
   try {

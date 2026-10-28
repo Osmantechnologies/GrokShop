@@ -1,4 +1,4 @@
-/* GROKAZON store pages (Amazon's structure, Grok inside): home, search, product, cart, order, orders, seller, admin.
+/* GROKSHOP store pages (Amazon's structure, Grok inside): home, search, product, cart, order, orders, seller, admin.
    Uses the shared helpers from common.js (window.GZ) and app.js (window.GZA). body[data-page] picks the page. */
 (function () {
   'use strict';
@@ -24,7 +24,7 @@
       '<a class="ph' + (photo(p) ? ' cover' : '') + '" href="product.html?id=' + encodeURIComponent(p.id) + '"><img src="' + esc(p.thumbnail) + '" alt="' + esc(p.title) + '" loading="lazy" width="300" height="300"></a>' +
       '<div class="bd"><a class="ti" href="product.html?id=' + encodeURIComponent(p.id) + '">' + esc(p.title) + '</a><span class="seller">' + esc(sellerOf(p)) + '</span>' + A.stars(p) +
       '<div class="price">' + money(p.price) + (w ? '<small>' + money(w) + '</small>' : '') + '</div><div class="dl">' + deliv(p) + '</div>' +
-      '<div class="tags">' + A.shopTag(p) + (p.source === 'seller' ? '<span class="tag">Grokazon seller</span>' : '') + '</div>' +
+      '<div class="tags">' + A.shopTag(p) + (p.source === 'seller' ? '<span class="tag">Grokshop seller</span>' : '') + '</div>' +
       (o.add === false ? '' : '<div class="add"><button class="pill white sm" type="button" data-add="' + esc(p.id) + '">Add to cart</button></div>') + '</div></article>';
   }
   function words(s) { return (String(s || '').toLowerCase().match(/[a-z0-9]+/g) || []).filter(function (w) { return w.length > 1 && !/^(the|and|for|with|me|my|find|best|under|below|a|an|of|to|in|on|this|that|please|delivered|week|buy|get|some|cheap|good)$/.test(w); }); }
@@ -42,7 +42,7 @@
     return s;
   }
   function loading(el) { el.innerHTML = '<div class="empty">Loading the store…</div>'; }
-  function apiDown(el, what) { el.innerHTML = '<div class="empty">' + esc(what) + ' needs the Grokazon server, which did not answer. Refresh to try again.</div>'; }
+  function apiDown(el, what) { el.innerHTML = '<div class="empty">' + esc(what) + ' needs the Grokshop server, which did not answer. Refresh to try again.</div>'; }
   function health() { return API ? A.timed(API + '/health', 8000).then(function (r) { return r.json(); }).catch(function () { return {}; }) : Promise.resolve({}); }
   function post(path, body) {
     return A.timed(API + path, 30000, { method: 'POST', headers: G.authHeaders({ 'content-type': 'application/json' }), body: JSON.stringify(body) })
@@ -77,7 +77,7 @@
       var rails = [
         ['Today\u2019s deals', 'Real discounts from the sellers\u2019 own prices.', 'search.html?deals=1', top(deals, 12)],
         ['X fast delivery, top rated', 'Arrives within a working week, free with any X plan.', 'search.html?fast=1&sort=rating', top(withImg.filter(function (p) { return A.fast(p) && p.rating >= 4.3; }).sort(byRating), 12)],
-        ['From independent stores', 'Shopify stores and Grokazon sellers.', 'search.html?indie=1', top(withImg.filter(function (p) { return p.source === 'shopify' || p.source === 'seller'; }).sort(function (a, b) { return (a.source === 'seller' ? -1 : 0) - (b.source === 'seller' ? -1 : 0); }), 12)],
+        ['From independent stores', 'Shopify stores and Grokshop sellers.', 'search.html?indie=1', top(withImg.filter(function (p) { return p.source === 'shopify' || p.source === 'seller'; }).sort(function (a, b) { return (a.source === 'seller' ? -1 : 0) - (b.source === 'seller' ? -1 : 0); }), 12)],
         ['Beauty and fragrance', '', 'search.html?dept=beauty', top(withImg.filter(function (p) { return p.dept === 'beauty'; }).sort(byRating), 12)]
       ];
       body.innerHTML = rails.map(function (r) { return r[3].length ? '<section class="row"><div class="rh"><div><h2>' + esc(r[0]) + '</h2>' + (r[1] ? '<p>' + esc(r[1]) + '</p>' : '') + '</div><a href="' + r[2] + '">See all</a></div><div class="rail">' + r[3].map(function (p) { return tile(p); }).join('') + '</div></section>' : ''; }).join('');
@@ -148,7 +148,7 @@
     Promise.all([A.catalogue(), live]).then(function () {
       var p = get(id);
       if (!p) { box.innerHTML = '<div class="empty" style="grid-column:1/-1">This product is not in the store. <a href="search.html" style="color:var(--accent)">Search the store</a> or <a href="results.html" style="color:var(--accent)">ask Grok</a>.</div>'; return; }
-      document.title = p.title + ' · Grokazon';
+      document.title = p.title + ' · Grokshop';
       var w = A.was(p), m = sellerOf(p), out = !/in stock/i.test(p.availabilityStatus || '') || p.stock === 0;
       var bullets = String(p.description || '').split(/(?<=[.!?])\s+/).filter(function (x) { return x.length > 12; }).slice(0, 5);
       var draw = function () {
@@ -156,7 +156,7 @@
           '<div class="gal"><div class="main"><img id="mainImg" src="' + esc(p.images[0] || p.thumbnail) + '" alt="' + esc(p.title) + '" width="600" height="600"></div>' +
           (p.images.length > 1 ? '<div class="thumbs">' + p.images.map(function (src, i) { return '<button type="button" class="' + (i ? '' : 'on') + '" data-src="' + esc(src) + '" aria-label="Photo ' + (i + 1) + '"><img src="' + esc(src) + '" alt="" loading="lazy"></button>'; }).join('') + '</div>' : '') + '</div>' +
           '<div class="facts"><h1>' + esc(p.title) + '</h1>' + (p.source === 'ebay' ? '<div class="by"><span class="tag ebaytag">eBay</span> Sold by <b>' + esc(p.ebay.seller) + '</b> on eBay' + (p.ebay.feedbackPct ? ' · ' + esc(p.ebay.feedbackPct) + '% positive feedback' : '') + (p.ebay.feedbackScore ? ' (' + esc(p.ebay.feedbackScore) + ')' : '') + (p.condition ? ' · ' + esc(p.condition) : '') + '</div>' : '<div class="by">Sold by <a href="search.html?q=' + encodeURIComponent(m.replace(/ store$/, '')) + '">' + esc(m) + '</a></div>' + A.stars(p)) +
-          '<div class="badges" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">' + A.xBadge(p) + A.shopTag(p) + (p.source === 'seller' ? '<span class="tag">Grokazon seller</span>' : '') + '</div><hr>' +
+          '<div class="badges" style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">' + A.xBadge(p) + A.shopTag(p) + (p.source === 'seller' ? '<span class="tag">Grokshop seller</span>' : '') + '</div><hr>' +
           '<div class="price" style="font-size:28px">' + money(p.price) + (w ? '<small>' + money(w) + '</small>' : '') + '</div>' + (p.discountPercentage >= 5 ? '<div class="mute" style="font-size:13px">' + Math.round(p.discountPercentage) + '% off the seller\u2019s list price</div>' : '') + '<hr>' +
           '<h3 style="font-size:16px;margin-bottom:8px">About this item</h3>' + (bullets.length ? '<ul class="bullets">' + bullets.map(function (b) { return '<li>' + esc(b) + '</li>'; }).join('') + '</ul>' : '<p class="mute">' + esc(p.description || '') + '</p>') +
           '<div class="askg">' + A.grokAv('sm') + ' <b style="font-weight:500">Ask Grok about this</b><span class="mute" style="font-size:13px"> · compares it with everything else in the store</span><form class="ask" id="askAbout"><input id="aq" placeholder="is there something better for less?" aria-label="Ask Grok about this" maxlength="200"><button class="go" type="submit" aria-label="Ask Grok">↑</button></form></div>' +
@@ -169,7 +169,7 @@
           (p.source === 'ebay' && p.ebay.url ? '<a class="pill line block" href="' + esc(p.ebay.url) + '" target="_blank" rel="noopener">See this item on eBay \u2197</a>' : '') +
           '<dl><dt>Ships from</dt><dd>' + esc(m) + '</dd><dt>Sold by</dt><dd>' + esc(m) + '</dd><dt>Returns</dt><dd>' + esc(p.returnPolicy || 'Set by the seller') + '</dd>' + (p.warrantyInformation ? '<dt>Warranty</dt><dd>' + esc(p.warrantyInformation) + '</dd>' : '') + '</dl>' +
           (p.ref && /^https:\/\//.test(p.ref.url) ? '<div class="refl"><span class="mute">' + (p.ref.match === 'same' ? 'Same product elsewhere' : 'Real-world reference') + '</span><a href="' + esc(p.ref.url) + '" target="_blank" rel="noopener nofollow">' + esc(p.ref.name) + ' at ' + esc(p.ref.retailer) + ' ↗</a>' + (p.ref.price ? '<small>' + money(p.ref.price) + ' there' + (p.ref.checked ? ', checked ' + esc(p.ref.checked) : '') + '</small>' : '') + '</div>' : '') +
-          '<div class="secure">Secure checkout on Grokazon: card details are typed on the payment provider\u2019s page, never stored here.</div></aside>';
+          '<div class="secure">Secure checkout on Grokshop: card details are typed on the payment provider\u2019s page, never stored here.</div></aside>';
         $$('.thumbs button', box).forEach(function (b) { b.addEventListener('click', function () { $('#mainImg').src = b.getAttribute('data-src'); $$('.thumbs button', box).forEach(function (x) { x.classList.toggle('on', x === b); }); }); });
         $('#askAbout').addEventListener('submit', function (e) { e.preventDefault(); var v = $('#aq').value.trim() || 'is there something better for less?'; location.href = 'results.html?q=' + encodeURIComponent(v + ' (about the ' + p.title + ')'); });
         $('[data-where-set]', box).addEventListener('click', G.whereSheet);
@@ -206,7 +206,7 @@
         '<div class="mute" style="font-size:13px">Deliver to <button class="linkb" type="button" data-where-set>' + esc(G.whereLabel()) + (G.where().cc ? ', ' + esc(G.regionName(G.where().cc)) : '') + ' \u203a</button></div>' +
         '<button class="pill white block" type="button" id="checkout">Proceed to checkout</button>' +
         (payMode === 'off' ? '<div class="paynote">Preview checkout: no payment is taken and nothing ships.</div>' : payMode === 'test' ? '<div class="paynote">Preview payments: pay with card <b class="mono">4242 4242 4242 4242</b>, any future date, any CVC. You won\u2019t be charged.</div>' : '') +
-        '<div class="mute" style="font-size:12px">Card and address are entered on the payment provider\u2019s secure page, not on Grokazon.</div>';
+        '<div class="mute" style="font-size:12px">Card and address are entered on the payment provider\u2019s secure page, not on Grokshop.</div>';
       $('[data-signin]', sum) && $('[data-signin]', sum).addEventListener('click', G.signIn);
       $('#checkout').addEventListener('click', go); $('[data-where-set]', sum).addEventListener('click', G.whereSheet);
     };
@@ -219,7 +219,7 @@
       }, 80);
     };
     var go = function () {
-      if (!API) { G.toast('Checkout needs the Grokazon server.'); return; }
+      if (!API) { G.toast('Checkout needs the Grokshop server.'); return; }
       location.href = 'checkout.html'; return;
       var b = $('#checkout'); b.disabled = true; b.textContent = 'Starting checkout…';
       var w = G.where();
@@ -270,11 +270,11 @@
             byS[s].map(function (x) { var p = x.p, e = A.eta(p); return '<div class="kitem"><img src="' + esc(p.thumbnail) + '" alt="" loading="lazy"><div><div class="ti">' + esc(p.title) + '</div><div class="meta">' + (e ? '<b class="ok">Arrives by ' + esc(e) + '</b> \u00b7 ' : '') + 'Qty ' + x.qty + ' \u00b7 ' + money(p.price * x.qty) + '</div></div></div>'; }).join('') + '</div>';
         }).join('') + '</section>' +
         '<section class="ksec"><h2><b>3</b>Payment method</h2>' + (payMode === 'off'
-          ? '<div class="kpay"><span class="dot" aria-hidden="true"></span><div><b>Grokazon preview pay</b><small>No card needed. Placing the order charges nothing and nothing ships.</small></div></div>'
+          ? '<div class="kpay"><span class="dot" aria-hidden="true"></span><div><b>Grokshop preview pay</b><small>No card needed. Placing the order charges nothing and nothing ships.</small></div></div>'
           : '<div class="kpay"><span class="dot" aria-hidden="true"></span><div><b>Credit or debit card</b><small>You enter it on Stripe\u2019s secure page right after you place the order' + (payMode === 'test' ? '. Preview payments: card 4242 4242 4242 4242, any future date, any CVC. You won\u2019t be charged.' : '.') + '</small></div></div>') + '</section>';
       var qt = quote;
       sum.innerHTML = '<button class="pill white block" type="button" id="place">' + (payMode === 'off' ? 'Place your order' : 'Continue to payment') + '</button>' +
-        '<div class="mute" style="font-size:12px">By placing your order you agree to Grokazon\u2019s <a href="terms.html">terms</a> and <a href="privacy.html">privacy notice</a>.</div>' +
+        '<div class="mute" style="font-size:12px">By placing your order you agree to Grokshop\u2019s <a href="terms.html">terms</a> and <a href="privacy.html">privacy notice</a>.</div>' +
         (qt ? '<dl class="qt"><dt>Items (' + n + ')</dt><dd>' + money(qt.items) + '</dd><dt>Shipping</dt><dd>' + (qt.shipping ? money(qt.shipping) : '<b class="free">FREE</b>') + '</dd>' + (payMode !== 'off' && taxOn ? '<dt>Estimated tax</dt><dd>calculated at payment</dd>' : '') + '</dl><div class="tot">Order total: <b>' + money(qt.total) + '</b></div>' : '<div class="mute">Pricing your order\u2026</div>') +
         '<a class="linkb" href="cart.html" style="font-size:13px">\u2039 Back to cart</a>';
       $('#place').addEventListener('click', place);
@@ -393,7 +393,7 @@
     var f = $('#lForm'), err = $('#lErr');
     f.addEventListener('submit', function (e) {
       e.preventDefault(); err.textContent = '';
-      if (!API) { err.textContent = 'Listing needs the Grokazon server.'; return; }
+      if (!API) { err.textContent = 'Listing needs the Grokshop server.'; return; }
       if (!photos.length) { err.textContent = 'Add at least one photo of the real product.'; return; }
       var b = $('#lGo'); b.disabled = true; b.textContent = 'Sending for review…';
       post('/seller/listings', { title: f.title.value, description: f.description.value, price: f.price.value, stock: f.stock.value, dept: f.dept.value, shipsIn: f.shipsIn.value, returns: f.returns.value, store: f.store.value, images: photos })
@@ -410,7 +410,7 @@
     var sf = $('#sForm'), serr = $('#sErr');
     sf.addEventListener('submit', function (e) {
       e.preventDefault(); serr.textContent = '';
-      if (!API) { serr.textContent = 'Connecting needs the Grokazon server.'; return; }
+      if (!API) { serr.textContent = 'Connecting needs the Grokshop server.'; return; }
       // a private token never leaves this browser
       if (/^shp(at|ss|ca|pa)_/.test(sf.token.value.trim())) { serr.textContent = 'That is a private Shopify token. Never share it. Use the PUBLIC Storefront token from the Headless channel.'; sf.token.value = ''; return; }
       post('/seller/shopify', { domain: sf.domain.value, token: sf.token.value, shipsIn: sf.shipsIn.value, returns: sf.returns.value })
@@ -439,14 +439,14 @@
       b.disabled = true; post('/seller/orders/ship', { order: p2[0], line: +p2[1], tracking: t ? t.value : '' }).then(function () { G.toast('Marked shipped. The buyer sees it in Your orders.'); ships(); }).catch(function (er) { G.toast(er.message); b.disabled = false; });
     });
     ordersTab.addEventListener('click', function () { if (Date.now() - shipAt > 5000) ships(); }); ships();
-    // payouts: Stripe Connect. Sellers finish setup on Stripe's own pages; Grokazon never sees bank details.
+    // payouts: Stripe Connect. Sellers finish setup on Stripe's own pages; Grokshop never sees bank details.
     var payBox = $('#payBox');
     var pays = function () {
       if (!API) return apiDown(payBox, 'Payouts');
       getJ('/seller/payouts').then(function (p) {
         var msg = {
           off: '<p>Payouts switch on together with payments. You can list products now; once payments are live, connect a Stripe account here so each sale is paid to you.</p>',
-          none: '<p>Get paid for every sale. Grokazon takes the payment at checkout and Stripe sends your part (your items and your shipping) to your bank. You set this up on Stripe\u2019s own page; Grokazon never sees your bank details.</p><button class="pill white" type="button" id="payGo">Set up payouts with Stripe</button>',
+          none: '<p>Get paid for every sale. Grokshop takes the payment at checkout and Stripe sends your part (your items and your shipping) to your bank. You set this up on Stripe\u2019s own page; Grokshop never sees your bank details.</p><button class="pill white" type="button" id="payGo">Set up payouts with Stripe</button>',
           started: '<p>Almost there: Stripe still needs ' + (p.due ? p.due + ' detail' + (p.due === 1 ? '' : 's') : 'a few details') + ' before it can pay you.</p><button class="pill white" type="button" id="payGo">Continue on Stripe</button>',
           ready: '<p><span class="tag ok">Payouts ready</span> Each sale is sent to your Stripe account after the shopper pays.</p><button class="pill grey" type="button" id="payDash">Open your Stripe dashboard</button>'
         }[p.status] || '';

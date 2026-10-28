@@ -1,11 +1,11 @@
-# GrokShop
+# Grokshop
 
 The open-source Amazon-style store with Grok built in. One cart across every seller, one checkout, missions that keep
 shopping while you're away, and an AI shopping agent that reads real product data and explains every pick.
 
-GrokShop powers **[grokazon.app](https://grokazon.app)**, the reference deployment ([@grokazonapp](https://x.com/grokazonapp)).
+Grokshop powers **[grokazon.app](https://grokazon.app)**, the reference deployment ([@AdeliaCmartins](https://x.com/AdeliaCmartins)).
 
-![GrokShop: real products, real checkout](social/real.jpg)
+![Grokshop: real products, real checkout](social/real.jpg)
 
 ## What it does
 

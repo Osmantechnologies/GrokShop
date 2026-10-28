@@ -1,4 +1,4 @@
-// Records the Grokazon demo tour headlessly (no visible window): node grokazon/video/record.cjs
+// Records the Grokshop demo tour headlessly (no visible window): node grokazon/video/record.cjs
 // Product-demo recipe: Playwright + CDP screencast at 1600x900 x1.2 (= 1920x1080 frames), a drawn-in cursor + click ring,
 // a 1px ticker so holds get frames. The local site (latest code) talks to the LIVE helper (real Grok, real catalogue).
 // Writes video/out/frames/*.jpg + frames.txt (ffmpeg concat with real durations) + marks.json (caption windows) +

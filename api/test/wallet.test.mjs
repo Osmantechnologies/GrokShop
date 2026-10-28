@@ -19,7 +19,7 @@ const pub = new Uint8Array(await webcrypto.subtle.exportKey('raw', kp.publicKey)
 ok('a fresh key pair gives a 32-byte address', pub.length === 32 && b58decode(address).length === 32, address);
 
 const n1 = await nonce(env, { address });
-ok('nonce: returns the message to sign, with the wallet and a 32-hex nonce', n1.status === 200 && n1.body.message.startsWith('Sign in to Grokazon') && n1.body.message.includes('Wallet: ' + address) && /Nonce: [a-f0-9]{32}/.test(n1.body.message));
+ok('nonce: returns the message to sign, with the wallet and a 32-hex nonce', n1.status === 200 && n1.body.message.startsWith('Sign in to Grokshop') && n1.body.message.includes('Wallet: ' + address) && /Nonce: [a-f0-9]{32}/.test(n1.body.message));
 ok('nonce: says it is not a transaction', /not a transaction/.test(n1.body.message));
 ok('nonce: refuses a bad address', (await nonce(env, { address: 'nope' })).status === 400);
 
@@ -34,7 +34,7 @@ const n2 = await nonce(env, { address });
 const other = await webcrypto.subtle.generateKey({ name: 'Ed25519' }, true, ['sign', 'verify']);
 const forged = await verify(env, { address, signature: b64(await sign(n2.body.message, other.privateKey)), message: n2.body.message });
 ok('verify: a signature from another key is refused', forged.status === 401, forged.body.error);
-const tampered = await verify(env, { address, signature: b64(await sign(n2.body.message)), message: n2.body.message.replace('Sign in to Grokazon', 'Send all my SOL') });
+const tampered = await verify(env, { address, signature: b64(await sign(n2.body.message)), message: n2.body.message.replace('Sign in to Grokshop', 'Send all my SOL') });
 ok('verify: a changed message is refused', tampered.status === 400 || tampered.status === 401, tampered.body.error);
 const n3 = await nonce(env, { address });
 const sig58 = b58encode(await sign(n3.body.message));

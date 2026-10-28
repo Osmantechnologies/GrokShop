@@ -1,4 +1,4 @@
-/* GROKAZON shared page code: helpers, the Grok Bot nav, the footer, toast, sheets, the "Sign in with X" sheet. */
+/* GROKSHOP shared page code: helpers, the Grok Bot nav, the footer, toast, sheets, the "Sign in with X" sheet. */
 (function () {
   'use strict';
   var C = window.GZ_CONFIG || {};
@@ -29,10 +29,10 @@
   // the wordmark: the bot glyph is the "o" once the generated PNG exists (art-src/PROMPTS.md); plain type until then
   function mark() {
     var g = C.ART && C.ART.glyph;
-    return g ? 'gr<img src="' + esc(g) + '" alt="o">kazon' : 'grokazon';
+    return g ? 'gr<img src="' + esc(g) + '" alt="o">kshop' : 'grokshop';
   }
   /* Sign in with X: the helper runs X's own login (OAuth 2.0), reads the profile + X plan once, and gives this browser a
-     random Grokazon session id (gz.xs) that goes with API calls as "Authorization: Bearer". Signed out, a preview switch
+     random Grokshop session id (gz.xs) that goes with API calls as "Authorization: Bearer". Signed out, a preview switch
      shows what X Premium changes. */
   var API = (C.API || '').replace(/\/+$/, '');
   function session() { var s = store('gz.xs'); return /^[a-f0-9]{48}$/.test(s || '') ? s : ''; }
@@ -63,9 +63,9 @@
   }
   function goX() { location.href = API + '/auth/x/start?return=' + encodeURIComponent(location.origin + location.pathname + location.search); }
   function previewSheet(note) {
-    sheet('<h3>Sign in with <span class=\"xlogo\" role=\"img\" aria-label=\"X\"></span></h3><p>Your X account is your Grokazon account: Grok reads your X plan once, so fast delivery is applied automatically. ' + esc(note || 'X sign-in switches on as soon as Grokazon\u2019s X app is approved.') + ' Meanwhile, preview what X Premium changes:</p>' +
+    sheet('<h3>Sign in with <span class=\"xlogo\" role=\"img\" aria-label=\"X\"></span></h3><p>Your X account is your Grokshop account: Grok reads your X plan once, so fast delivery is applied automatically. ' + esc(note || 'X sign-in switches on as soon as Grokshop\u2019s X app is approved.') + ' Meanwhile, preview what X Premium changes:</p>' +
       '<label class="switch"><span>Preview as X Premium</span><input type="checkbox" id="xprem"' + (premium() ? ' checked' : '') + '></label>' +
-      '<p style="margin-top:14px">Grokazon never asks for your X password or a card. Checkout always happens at the merchant.</p>' +
+      '<p style="margin-top:14px">Grokshop never asks for your X password or a card. Checkout always happens at the merchant.</p>' +
       '<div class="acts"><a class="pill grey sm" href="' + esc(C.X_PREMIUM) + '" target="_blank" rel="noopener">See X Premium ↗</a><button class="pill white sm" data-close type="button">Done</button></div>',
       function (s) { $('#xprem', s).addEventListener('change', function (e) { premium(e.target.checked); toast(e.target.checked ? 'Preview: X Premium, fast delivery included' : 'Preview off'); }); });
   }
@@ -108,9 +108,9 @@
   function walletSheet(close0) {
     var ws = findWallets(), phone = /iPhone|Android/i.test(navigator.userAgent) && !ws.length;
     var here = location.origin + location.pathname + location.search;
-    sheet('<h3>Connect a wallet</h3><p>Your wallet becomes your Grokazon account: orders, missions and reviews follow it. You sign one plain message to prove you hold it. No transaction, no fee, nothing leaves the wallet.</p>' +
+    sheet('<h3>Connect a wallet</h3><p>Your wallet becomes your Grokshop account: orders, missions and reviews follow it. You sign one plain message to prove you hold it. No transaction, no fee, nothing leaves the wallet.</p>' +
       (ws.length ? '<div class="wlist">' + ws.map(function (w, i) { return '<button class="pill grey block" type="button" data-w="' + i + '">' + (w.icon ? '<img src="' + esc(w.icon) + '" alt="">' : '') + 'Connect ' + esc(w.name) + '</button>'; }).join('') + '</div>'
-        : phone ? '<div class="wlist"><a class="pill grey block" href="https://phantom.app/ul/browse/' + encodeURIComponent(here) + '?ref=' + encodeURIComponent(location.origin) + '">Open in Phantom</a><a class="pill grey block" href="https://solflare.com/ul/v1/browse/' + encodeURIComponent(here) + '?ref=' + encodeURIComponent(location.origin) + '">Open in Solflare</a></div><p class="mute">Grokazon opens inside the wallet\u2019s browser, then tap Connect.</p>'
+        : phone ? '<div class="wlist"><a class="pill grey block" href="https://phantom.app/ul/browse/' + encodeURIComponent(here) + '?ref=' + encodeURIComponent(location.origin) + '">Open in Phantom</a><a class="pill grey block" href="https://solflare.com/ul/v1/browse/' + encodeURIComponent(here) + '?ref=' + encodeURIComponent(location.origin) + '">Open in Solflare</a></div><p class="mute">Grokshop opens inside the wallet\u2019s browser, then tap Connect.</p>'
         : '<p class="mute">No Solana wallet found in this browser. Install <a href="https://phantom.com" target="_blank" rel="noopener">Phantom</a> or <a href="https://solflare.com" target="_blank" rel="noopener">Solflare</a>, then come back.</p>') +
       '<div class="werr" id="werr" role="alert"></div><div class="acts"><button class="pill line sm" type="button" data-close>Cancel</button></div>',
       function (s, close) {
@@ -122,9 +122,9 @@
   }
   // choose how to sign in: X (plan read once, fast delivery) or a wallet
   function chooseSheet() {
-    sheet('<h3>Sign in to Grokazon</h3><p>One account for orders, missions and reviews, on every device you sign in on.</p>' +
+    sheet('<h3>Sign in to Grokshop</h3><p>One account for orders, missions and reviews, on every device you sign in on.</p>' +
       '<div class="wlist"><button class="pill white block" type="button" id="gox">Continue with <span class="xlogo" role="img" aria-label="X" style="margin-left:6px"></span></button><button class="pill grey block" type="button" id="gow">Connect a wallet</button></div>' +
-      '<p class="mute" style="margin-top:12px">With X, any X plan includes X fast delivery. Grokazon never sees an X password or a wallet key.</p><div class="acts"><button class="pill line sm" type="button" data-close>Cancel</button></div>',
+      '<p class="mute" style="margin-top:12px">With X, any X plan includes X fast delivery. Grokshop never sees an X password or a wallet key.</p><div class="acts"><button class="pill line sm" type="button" data-close>Cancel</button></div>',
       function (s, close) {
         $('#gox', s).addEventListener('click', function () { xLoginReady().then(function (ok) { close(); if (ok) goX(); else previewSheet(); }); });
         $('#gow', s).addEventListener('click', function () { close(); walletSheet(); });
@@ -135,7 +135,7 @@
     if (m.wallet) return walletAccountSheet(m);
     sheet('<div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">' + whoAv(m, 'lg') + '<div><h3 style="margin:0">' + esc(m.name) + '</h3><span class="mute">@' + esc(m.username) + '</span></div></div>' +
       '<p>' + (m.fast ? '<b style="color:var(--ink);font-weight:500">' + esc(m.planName) + '</b>: fast delivery is included on every item marked X fast.' : 'No X subscription on this account, so X fast delivery is not included. Any X plan (Basic, Premium, Premium+) turns it on.') + '</p>' +
-      '<p>Your missions now follow your X account to every device you sign in on. Grokazon read your profile and plan once; it cannot post, read your posts or see your password.</p>' +
+      '<p>Your missions now follow your X account to every device you sign in on. Grokshop read your profile and plan once; it cannot post, read your posts or see your password.</p>' +
       '<div class="acts">' + (m.fast ? '' : '<a class="pill grey sm" href="' + esc(C.X_PREMIUM) + '" target="_blank" rel="noopener">Get X Premium ↗</a>') + '<button class="pill line sm" type="button" id="xout">Sign out</button><button class="pill white sm" data-close type="button">Done</button></div>',
       function (s, close) {
         $('#xout', s).addEventListener('click', function () {
@@ -146,7 +146,7 @@
   }
   function walletAccountSheet(m) {
     sheet('<div style="display:flex;gap:12px;align-items:center;margin-bottom:10px">' + whoAv(m, 'lg') + '<div><h3 style="margin:0">Wallet account</h3><span class="mute mono" style="font-size:13px;word-break:break-all">' + esc(m.wallet) + '</span></div></div>' +
-      '<p>Your orders, missions and reviews follow this wallet on every device. Grokazon only asked it to sign a message: no transaction, no fee, and it cannot move anything in the wallet.</p>' +
+      '<p>Your orders, missions and reviews follow this wallet on every device. Grokshop only asked it to sign a message: no transaction, no fee, and it cannot move anything in the wallet.</p>' +
       '<p>X fast delivery comes with an X plan; sign in with X on this device to add it.</p>' +
       '<div class="acts"><button class="pill grey sm" type="button" id="wcopy">Copy address</button><button class="pill line sm" type="button" id="xout">Sign out</button><button class="pill white sm" data-close type="button">Done</button></div>',
       function (s, close) {
@@ -229,11 +229,11 @@
     var on = top.getAttribute('data-on') || '', P = new URLSearchParams(location.search);
     var q = /search\.html$/.test(location.pathname) ? (P.get('q') || '') : '', dsel = P.get('dept') || '';
     var strip = [['All', 'search.html', 'all'], ['Today\u2019s Deals', 'search.html?deals=1', 'deals']].concat(DEPTS.map(function (d) { return [d[1], 'search.html?dept=' + d[0], d[0]]; }))
-      .concat([['Ask Grok', 'results.html', 'shop'], ['Grok Missions <b class="newN">' + newCount() + '</b>', 'missions.html', 'missions'], ['Sell on Grokazon', 'seller.html', 'sell'], ['Meet Grok', 'about.html', 'about']]);
-    top.innerHTML = '<div class="belt"><a class="mark" href="index.html" aria-label="grokazon home">' + mark() + '</a>' +
+      .concat([['Ask Grok', 'results.html', 'shop'], ['Grok Missions <b class="newN">' + newCount() + '</b>', 'missions.html', 'missions'], ['Sell on Grokshop', 'seller.html', 'sell'], ['Meet Grok', 'about.html', 'about']]);
+    top.innerHTML = '<div class="belt"><a class="mark" href="index.html" aria-label="grokshop home">' + mark() + '</a>' +
       '<button class="deliver" type="button" data-where></button>' +
       '<form class="sbar" action="search.html" role="search"><select name="dept" aria-label="Department"><option value="">All</option>' + DEPTS.map(function (d) { return '<option value="' + d[0] + '"' + (d[0] === dsel ? ' selected' : '') + '>' + d[1] + '</option>'; }).join('') + '</select>' +
-      '<input name="q" value="' + esc(q) + '" placeholder="Search Grokazon or ask Grok" aria-label="Search Grokazon or ask Grok" autocomplete="off"><button type="submit" aria-label="Search">' + (C.ART && C.ART.glyph ? '<img src="' + esc(C.ART.glyph) + '" alt="">' : 'Go') + '</button></form>' +
+      '<input name="q" value="' + esc(q) + '" placeholder="Search Grokshop or ask Grok" aria-label="Search Grokshop or ask Grok" autocomplete="off"><button type="submit" aria-label="Search">' + (C.ART && C.ART.glyph ? '<img src="' + esc(C.ART.glyph) + '" alt="">' : 'Go') + '</button></form>' +
       '<button class="acct" type="button" id="xin"></button>' +
       '<a class="acct orders" href="orders.html"><small>Returns</small>&amp; Orders</a>' +
       '<a class="cartb" href="cart.html" aria-label="Cart"><b id="cartN">' + cartCount() + '</b><span>Cart</span></a><button class="dlvm" type="button" data-where></button></div>' +
@@ -247,8 +247,8 @@
     var f = $('footer.foot'); if (!f) return;
     f.innerHTML = '<div class="wrap"><div class="cols"><div><a class="mark" href="index.html">' + mark() + '</a><span>Don’t shop. Send Grok.</span></div>' +
       '<div><b>Shop</b><a href="search.html?deals=1">Today’s Deals</a><a href="results.html">Ask Grok</a><a href="missions.html">Grok Missions</a><a href="orders.html">Returns &amp; Orders</a></div>' +
-      '<div><b>Sell</b><a href="seller.html">Sell on Grokazon</a><a href="sell.html">How selling works</a><a href="index.html#pricing">X fast delivery</a><a href="about.html">Meet Grok</a></div>' +
-      '<div><b>Grokazon</b><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="orders.html">Your orders</a></div>' +
+      '<div><b>Sell</b><a href="seller.html">Sell on Grokshop</a><a href="sell.html">How selling works</a><a href="index.html#pricing">X fast delivery</a><a href="about.html">Meet Grok</a></div>' +
+      '<div><b>Grokshop</b><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="orders.html">Your orders</a></div>' +
       '<div><b>Follow</b>' + (C.X_URL ? '<a href="' + esc(C.X_URL) + '" target="_blank" rel="noopener"><span class="xlogo" role="img" aria-label="X" style="margin:0 6px 0 0"></span>@' + esc(C.X_URL.split('/').pop()) + '</a>' : '') + '</div>' +
       '<div><b>Sources</b><a href="' + esc(C.ARTICLE) + '" target="_blank" rel="noopener">Business Insider ↗</a></div></div>' +
       '</div>';

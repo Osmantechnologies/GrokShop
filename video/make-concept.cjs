@@ -38,7 +38,7 @@ const b64 = (f, t) => 'data:' + t + ';base64,' + fs.readFileSync(f).toString('ba
   .col img{width:100%;height:440px;object-fit:cover;object-position:left top;display:block;border-bottom:1px solid rgba(255,255,255,.1)}
   .bd{padding:22px 24px;display:flex;flex-direction:column;gap:14px}.lab{display:inline-flex;align-self:flex-start;align-items:center;gap:10px;font-size:22px;font-weight:600;padding:8px 16px;border-radius:9999px;background:rgba(255,255,255,.06)}
   .lab i{width:12px;height:12px;border-radius:50%;display:block}ul{list-style:none;display:flex;flex-direction:column;gap:10px;font-size:21px;color:#D5D9E2;line-height:1.25}li::before{content:'\\2014  ';color:#555}</style></head><body>
-  <div class="top"><div class="mark">gr<img src="${glyph}">kazon</div><div class="ttl">A concept, shipping in public</div><div class="url">grokazon.app</div></div>
+  <div class="top"><div class="mark">gr<img src="${glyph}">kshop</div><div class="ttl">A concept, shipping in public</div><div class="url">grokazon.app</div></div>
   <div class="cols">${cols.map(k => `<div class="col"><img src="${b64(path.join(OUT, k[0] + '.png'), 'image/png')}"><div class="bd"><span class="lab"><i style="background:${k[2]}"></i>${k[1]}</span><ul>${k[3].map(x => '<li>' + x + '</li>').join('')}</ul></div></div>`).join('')}</div>
   </body></html>`, { waitUntil: 'networkidle' });
   await c.evaluate(() => document.fonts.ready);

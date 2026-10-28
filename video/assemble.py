@@ -1,4 +1,4 @@
-# Cuts the Grokazon demo: python grokazon/video/assemble.py
+# Cuts the Grokshop demo: python grokazon/video/assemble.py
 # raw tour (frames.txt, real frame durations) -> 30 fps 1080p, numbered captions faded in over each step (marks.json),
 # opener and closer cards joined with 0.5 s crossfades. Silent (no music licence needed).
 # Writes video/out/grokazon-demo.mp4 (crf 18) and grokazon-demo-x.mp4 (crf 23, smaller, for posting on X).

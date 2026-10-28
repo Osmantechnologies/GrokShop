@@ -1,1 +1,1 @@
-{ "name": "grokazon-api", "private": true, "version": "0.1.0", "type": "module", "description": "Grokazon helper: catalogue filter + one model call per ask (Cloudflare Worker, no dependencies)" }
+{ "name": "grokazon-api", "private": true, "version": "0.1.0", "type": "module", "description": "Grokshop helper: catalogue filter + one model call per ask (Cloudflare Worker, no dependencies)" }

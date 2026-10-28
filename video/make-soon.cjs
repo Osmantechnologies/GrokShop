@@ -21,9 +21,9 @@ const b64 = (f, t) => 'data:' + t + ';base64,' + fs.readFileSync(f).toString('ba
   h1{font-size:92px;font-weight:500;letter-spacing:-2.5px;line-height:1}p{font-size:30px;color:#D5D9E2;max-width:980px;line-height:1.35}
   .pill{font-family:'Geist Mono',monospace;font-size:26px;color:#000;background:#4AD8EC;border-radius:9999px;padding:14px 28px}
   .x{font-size:22px;color:#9aa0a6}</style></head><body><div class="bg"></div><div class="shade"></div>
-  <div class="t"><div class="mark">gr<img src="${glyph}">kazon</div><h1>Real products, soon.</h1>
-  <p>We're onboarding the first real sellers now. Have something to sell? List it on Grokazon and let Grok bring you buyers.</p>
-  <div class="pill">grokazon.app/seller.html</div><div class="x">@grokazonapp</div></div></body></html>`, { waitUntil: 'networkidle' });
+  <div class="t"><div class="mark">gr<img src="${glyph}">kshop</div><h1>Real products, soon.</h1>
+  <p>We're onboarding the first real sellers now. Have something to sell? List it on Grokshop and let Grok bring you buyers.</p>
+  <div class="pill">grokazon.app/seller.html</div><div class="x">@AdeliaCmartins</div></div></body></html>`, { waitUntil: 'networkidle' });
   await c.evaluate(() => document.fonts.ready);
   const out = path.join(__dirname, '..', 'social', 'real-soon.jpg');
   await c.screenshot({ path: out, type: 'jpeg', quality: 90 });

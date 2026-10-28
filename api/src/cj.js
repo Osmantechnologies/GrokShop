@@ -1,13 +1,13 @@
-// CJ Dropshipping connector: real products held in CJ's US warehouses, sold by Grokazon, ordered from CJ once the
+// CJ Dropshipping connector: real products held in CJ's US warehouses, sold by Grokshop, ordered from CJ once the
 // buyer's order is placed. Docs: developers.cjdropshipping.com (API 2.0, read 2026-10-16).
 //
 //   Shelf     every hour the cron tops up the shelf in KV (cj:shelf): a product search per shelf line (US stock only,
 //             verified inventory), then each product's details (US-stock variants). One catalogue item per variant,
 //             so the cart needs no size/colour picker: "Yoga mat - Purple" is its own listing, like Amazon's.
-//   Price     CJ's cost x CJ_MARKUP + CJ_ADD, rounded up to .99. Grokazon's own shipping rule still applies on top.
+//   Price     CJ's cost x CJ_MARKUP + CJ_ADD, rounded up to .99. Grokshop's own shipping rule still applies on top.
 //   Orders    test orders (no Stripe, or Stripe test keys) go to CJ as SANDBOX orders: no money, nothing ships.
 //             live orders are created at CJ unpaid (payType 3) unless CJ_AUTOPAY=1 (paid from the CJ balance).
-//   Tracking  the cron reads each open CJ order and copies status + tracking number onto the Grokazon order.
+//   Tracking  the cron reads each open CJ order and copies status + tracking number onto the Grokshop order.
 //
 // Env: secret CJ_API_KEY ; vars CJ_ON ("1" shows the shelf), CJ_SHELF (JSON [{q, dept}]), CJ_MARKUP, CJ_ADD,
 //      CJ_RETURNS, CJ_AUTOPAY. Free CJ accounts may call the API once a second, so every call goes through one queue.
@@ -68,7 +68,7 @@ export function fromDetail(env, d, hit) {
   return vs.map(({ v, stock }) => {
     const opt = clean(v.variantKey || ''), img = /^https:\/\//.test(v.variantImage || '') ? v.variantImage : imgs[0];
     return {
-      id: 'c-' + v.vid, source: 'cj', merchant: 'Grokazon', brand: 'Grokazon', title: name + (opt && (many || !/^default$/i.test(opt)) ? ' - ' + opt : ''),
+      id: 'c-' + v.vid, source: 'cj', merchant: 'Grokshop', brand: 'Grokshop', title: name + (opt && (many || !/^default$/i.test(opt)) ? ' - ' + opt : ''),
       description: clean(d.description || hit.description).slice(0, 1200), category: hit.cat || hit.dept, dept: hit.dept, tags: [hit.dept, String(hit.cat || '').toLowerCase()].filter(Boolean),
       price: retail(env, v.variantSellPrice), currency: 'USD', discountPercentage: 0, rating: null, reviews: [], stock, availabilityStatus: 'In Stock',
       shippingInformation: shipLine(hit.cycle), returnPolicy: env.CJ_RETURNS || '30 days return policy', warrantyInformation: null,
@@ -121,7 +121,7 @@ async function pickLogistic(env, cc, products) {
   const week = opts.filter(x => x.days <= 7), pool = week.length ? week : opts;
   return pool.sort((a, b) => a.price - b.price)[0];
 }
-// called once the Grokazon order is placed (paid, or a test order). Never throws: problems are written on the order.
+// called once the Grokshop order is placed (paid, or a test order). Never throws: problems are written on the order.
 export async function placeCjOrder(env, o) {
   const lines = cjLines(o); if (!lines.length || o.cj) return o;
   const sandbox = o.mode !== 'live', to = o.shipTo || {}, cc = to.cc || 'US';
@@ -133,8 +133,8 @@ export async function placeCjOrder(env, o) {
     const body = {
       orderNumber: o.id, isSandbox: sandbox ? 1 : 0, payType: !sandbox && env.CJ_AUTOPAY === '1' ? 2 : 3,
       shippingCountryCode: cc, shippingCountry: cc, shippingProvince: to.state || (sandbox ? 'Test' : ''), shippingCity: to.city || (sandbox ? 'Test' : ''), shippingZip: to.zip || '',
-      shippingCustomerName: to.name || (sandbox ? 'Grokazon test order' : ''), shippingAddress: to.line1 || (sandbox ? 'Test order, nothing ships' : ''), shippingAddress2: to.line2 || '',
-      logisticName: ship.name, fromCountryCode: 'US', platform: 'Api', remark: 'Grokazon ' + o.id,
+      shippingCustomerName: to.name || (sandbox ? 'Grokshop test order' : ''), shippingAddress: to.line1 || (sandbox ? 'Test order, nothing ships' : ''), shippingAddress2: to.line2 || '',
+      logisticName: ship.name, fromCountryCode: 'US', platform: 'Api', remark: 'Grokshop ' + o.id,
       products: lines.map(l => ({ vid: String(l.id).slice(2), quantity: l.qty, storeLineItemId: o.id + '-' + l.n }))
     };
     const d = await call(env, '/shopping/order/createOrderV2', { body });

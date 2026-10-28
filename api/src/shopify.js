@@ -77,7 +77,7 @@ export async function shopProducts(shop, max = 250) {
   return out.filter(p => p.thumbnail && p.price > 0 && p.currency === 'USD');
 }
 
-// a real cart at the store -> its own checkout URL (Grokazon never sees payment)
+// a real cart at the store -> its own checkout URL (Grokshop never sees payment)
 export async function createCheckout(shop, lines) {
   const d = await gql(shop, `mutation C($lines: [CartLineInput!]!) { cartCreate(input: { lines: $lines }) { cart { checkoutUrl } userErrors { message } } }`,
     { lines: lines.map(l => ({ merchandiseId: l.variantId, quantity: Math.max(1, Math.min(9, l.qty | 0)) })) });
