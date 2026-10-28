@@ -1,0 +1,28 @@
+/* GROKAZON tokens: the only place with colours, fonts, radii. Grok Bot skin (x.ai/bot, measured 2026-10-15). */
+:root {
+  --bg: #0A0A0A;
+  --panel: #161616;
+  --panel-2: #1F1F1F;
+  --panel-3: #202020;
+  --line: #1F2228;
+  --line-2: rgba(255, 255, 255, .08);
+  --ink: #FFFFFF;
+  --ink-2: #D5D9E2;
+  --mute: #7D8187;
+  --mute-2: #555555;
+  --accent: #4AD8EC;          /* selected chips, "Grok's pick" */
+  --accent-bg: rgba(74, 216, 236, .12);
+  --ok: #1F8A65;              /* working / in stock */
+  --ok-bg: rgba(31, 138, 101, .16);
+  --warn: #F4B942;            /* price-drop alerts only; never a surface */
+  --warn-bg: rgba(244, 185, 66, .12);
+  --radius-pill: 9999px;
+  --radius-card: 12px;
+  --radius-panel: 16px;
+  --radius-window: 24px;
+  --font: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --mono: 'Geist Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --nav-h: 64px;
+  --wrap: 1120px;
+  --gutter: 20px;
+}

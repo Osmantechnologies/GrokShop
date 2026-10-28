@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=0.8.2"><link rel="stylesheet" href="site.css?v=0.8.2"><link rel="stylesheet" href="store.css?v=0.8.2">
+<title>Sell on Grokazon</title>
+<meta name="description" content="Grok sends shoppers who already know what they want. Your store keeps the checkout.">
+<!-- share -->
+<link rel="icon" type="image/png" href="assets/favicon.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Grokazon"><meta property="og:url" content="https://grokazon.app/sell.html">
+<meta property="og:title" content="Sell on Grokazon"><meta property="og:description" content="Grok sends shoppers who already know what they want. Your store keeps the checkout.">
+<meta property="og:image" content="https://grokazon.app/assets/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@grokazonapp"><meta name="twitter:image" content="https://grokazon.app/assets/og.jpg">
+<!-- /share -->
+</head>
+<body data-page="sell">
+<nav class="nav" data-on="sell" aria-label="Main"></nav>
+
+<header class="hero wrap" id="top">
+  <span class="eyebrow"><b>For merchants</b> · Shopify first</span>
+  <h1>Sell on Grokazon</h1>
+  <p class="sub">Grok sends shoppers who already know what they want. Your store keeps the checkout.</p>
+  <div class="ctas"><a class="pill white" href="#apply">Ask to join</a><a class="pill grey" href="#how">How it works</a></div>
+</header>
+
+<section class="sec wrap" id="how">
+  <div class="feat">
+    <div class="txt"><span class="num">01</span><h2>Your products in Grok's answers</h2>
+      <p class="lede">When a shopper's request fits what you sell, Grok shows your product with your name on it, explains why it picked it, and sends the shopper to your own checkout.</p>
+      <p class="owner"><b>Independent merchant marketplace.</b> Search participating Shopify merchants and other stores with permitted API access.</p></div>
+    <div class="mock" id="sellCard"><div class="empty">Loading an example…</div></div>
+  </div>
+</section>
+
+<section class="sec wrap center">
+  <h2>How a store joins</h2>
+  <p class="lede">With permission, through your store's own API. Grokazon never scrapes a store.</p>
+  <div class="how">
+    <div><b>01</b><h3>Ask to join</h3><p>Send your store address below. Requests are read by hand while Grokazon is a concept.</p></div>
+    <div><b>02</b><h3>Connect with permission</h3><p>Once approved, you add Shopify's free Headless channel and share its public, read-only Storefront token. You stay in control and can disconnect any time.</p></div>
+    <div><b>03</b><h3>Shoppers check out with you</h3><p>Grok builds the cart and hands the shopper to your checkout. You handle payment, shipping and returns as you do today.</p></div>
+  </div>
+</section>
+
+<section class="sec wrap" id="needs">
+  <h2>What your store needs</h2>
+  <p class="lede">About ten minutes in your Shopify admin. Nothing to install on your site.</p>
+  <div class="how needs">
+    <div><b>01</b><h3>A Shopify store</h3><p>Any plan. Products published, prices in US dollars.</p></div>
+    <div><b>02</b><h3>The Headless channel</h3><p>Free from Shopify. Add it, then publish the products you want Grok to see to that channel.</p></div>
+    <div><b>03</b><h3>Your public Storefront token</h3><p>Headless shows it on its Storefront API page. It is read-only and made to be public. Never send the private token or your admin login.</p></div>
+    <div><b>04</b><h3>Your delivery promise</h3><p>How fast you ship (for example "1-2 business days") and your return window. Shopify does not publish these, and Grok only shows what you tell it.</p></div>
+  </div>
+  <p class="under">Already connected through the same Shopify API: four of Shopify's own test stores (audio, gadgets, coffee, furniture). Their carts and checkout pages are real; their products are samples.</p>
+</section>
+
+<section class="sec wrap">
+  <div class="rules">
+    <div class="mock"><h3>What Grok reads</h3><ul class="ticks">
+      <li>Product titles, photos and descriptions</li><li>Prices and discounts</li><li>Stock</li><li>Shipping times</li><li>Return policy and warranty</li></ul></div>
+    <div class="mock"><h3>What Grokazon never does</h3><ul class="ticks no">
+      <li>Scrape your site</li><li>Ask for your password or admin access</li><li>Take payment or see card details</li><li>Change your prices or listings</li><li>Hide which store a product comes from</li></ul></div>
+  </div>
+</section>
+
+<section class="sec wrap" id="apply">
+  <div class="jobs">
+    <div><h2>Ask to join</h2>
+      <p class="lede">Only your store's public address. No passwords, keys or tokens are asked for here, ever.</p>
+      <p class="lede" id="applyNote"></p></div>
+    <div class="mock">
+      <form id="applyForm" novalidate>
+        <label class="fld">Store address<input name="store" required maxlength="120" placeholder="yourstore.myshopify.com" autocomplete="off" inputmode="url"></label>
+        <div class="fld2"><label class="fld">Your X handle (optional)<input name="x" maxlength="16" placeholder="@yourstore" autocomplete="off"></label>
+          <label class="fld">Products<select name="products"><option>under 50</option><option>50 to 500</option><option>over 500</option></select></label></div>
+        <label class="fld">Anything Grok should know (optional)<input name="note" maxlength="300" placeholder="what you sell, where you ship" autocomplete="off"></label>
+        <p class="err" id="applyErr" role="alert"></p>
+        <button class="pill white block" type="submit" id="applyGo" style="margin-top:14px">Send request</button>
+      </form>
+      <div id="applyDone" hidden></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec wrap center" id="faq">
+  <h2>Merchant FAQ</h2>
+  <div class="faq">
+    <details><summary>What does it cost?</summary><p>Nothing while Grokazon is a concept. No fees have been set.</p></details>
+    <details><summary>Which stores can join?</summary><p>Shopify stores first, then other stores whose platform lets them share their catalogue through an API with permission.</p></details>
+    <details><summary>Do I change my checkout?</summary><p>No. Shoppers check out on your store exactly as they do today. Grokazon has no payment form.</p></details>
+    <details><summary>How does Grok decide to show my product?</summary><p>On fit with the shopper's request, budget and deadline, then price, delivery time, rating, returns and warranty. The reasoning is shown to the shopper next to every pick.</p></details>
+    <details><summary>Can I leave?</summary><p>Yes. Disconnect from your Shopify admin and your products stop appearing in Grok's answers.</p></details>
+  </div>
+</section>
+
+<footer class="foot"></footer>
+<script src="config.js?v=0.8.2"></script><script src="common.js?v=0.8.2"></script><script src="app.js?v=0.8.2"></script><script src="store.js?v=0.8.2"></script>
+</body>
+</html>

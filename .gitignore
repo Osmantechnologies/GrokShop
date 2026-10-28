@@ -1,0 +1,8 @@
+node_modules/
+api/.dev.vars
+api/.wrangler/
+deploy/site/
+deploy/*.zip
+qa/shots/
+video/out/
+.DS_Store

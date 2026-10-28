@@ -1,0 +1,57 @@
+name = "grokazon-api"
+main = "src/index.js"
+compatibility_date = "2026-07-01"
+
+# No KV yet: the 12 h answer cache and the per-IP counter live in the Worker's memory (per isolate).
+# Slice 2: bind a KV namespace as CACHE and the same code uses it.
+
+[vars]
+# Sites allowed to call /ask. Local preview :5445 until the owner has a domain.
+ALLOW_ORIGINS = "https://grokazon.app,https://www.grokazon.app,https://bejewelled-cupcake-0c1fc0.netlify.app,http://localhost:5445,http://127.0.0.1:5445"
+CATALOGUE = "https://dummyjson.com/products?limit=0"
+# Claude by default (key is a secret: wrangler secret put ANTHROPIC_API_KEY ; locally in .dev.vars).
+# Set the secret XAI_API_KEY and the same call goes to Grok instead (xAI's OpenAI-compatible endpoint).
+ASK_MODEL = "claude-sonnet-5-5"
+ASK_EFFORT = "low"
+XAI_MODEL = "grok-4.3"   # xAI retired plain grok-4; ids + prices: docs.x.ai/docs/models (checked 2026-10-15)
+ALLOW_FIXTURE = "1"   # ?fixture=1 returns the saved headphones answer: no model spend
+ASK_PER_IP = "20"     # per visitor per day (local wrangler dev has no visitor IP and is unlimited)
+# Real products. DEMO_CATALOGUE="0" removes the DummyJSON demo products; set SHOPS = '[]' to remove the Shopify test stores.
+DEMO_CATALOGUE = "1"
+# demo categories left out of the store: things no store would ship this way (fresh food, cars, motorcycles)
+DEMO_SKIP = "groceries,vehicle,motorcycle"
+# "1" = show only sample products that have a checked reference link to a real listing (api/data/refs.json)
+REF_ONLY = "1"
+# eBay Browse API: EBAY_ENV = "sandbox" now, "production" after eBay Partner Network approval (docs/EBAY-APPLICATION.md).
+# Keys are secrets (EBAY_CLIENT_ID, EBAY_CLIENT_SECRET; locally in .dev.vars). EBAY_RANK = "1" only if eBay allows Grok to highlight eBay items.
+EBAY_ENV = "sandbox"
+EBAY_RANK = "0"
+# Grokazon's own US-warehouse shelf (cj.js): real products stocked in CJ Dropshipping's US warehouses, sold by Grokazon.
+# Key is a secret: npx wrangler secret put CJ_API_KEY (locally CJ_API_KEY=... in .dev.vars). CJ_ON = "1" shows the shelf.
+# Price = CJ cost x CJ_MARKUP + CJ_ADD, rounded up to .99. Test orders go to CJ as sandbox orders (no money, nothing ships);
+# live orders are created at CJ unpaid unless CJ_AUTOPAY = "1" (then paid from the owner's CJ balance).
+CJ_ON = "0"
+CJ_MARKUP = "1.5"
+CJ_ADD = "3"
+CJ_RETURNS = "30 days return policy"
+CJ_AUTOPAY = "0"
+# Seller payouts (Stripe Connect): Grokazon's fee on each sale, in basis points (0 = none).
+PLATFORM_FEE_BPS = "0"
+# Sign in with X (xauth.js): the X app's OAuth 2.0 Client ID (public). The Client Secret is a secret:
+#   npx wrangler secret put X_CLIENT_SECRET     (locally: X_CLIENT_SECRET=... in .dev.vars)
+# The helper's public address: Netlify passes https://grokazon.app/api/* to this Worker (deploy/_redirects).
+PUBLIC_API = "https://grokazon.app/api"
+X_CLIENT_ID = "YOUR_X_CLIENT_ID"   # your X app
+# Shopify stores read through the Storefront API (shopify.js). These four are Shopify's own TEST stores (mock.shop:
+# real Shopify API, real carts and checkout links, sample products). Real stores are added as KV keys shop:<key>.
+SHOPS = '[{"key":"audio","endpoint":"https://audio.mock.shop/api","test":true,"shipsIn":"Ships in 1-2 business days","returns":"30 days return policy"},{"key":"gadgets","endpoint":"https://gadgets.mock.shop/api","test":true,"shipsIn":"Ships in 1-2 business days","returns":"30 days return policy"},{"key":"coffee","endpoint":"https://coffee.mock.shop/api","test":true,"shipsIn":"Ships in 3-5 business days","returns":"14 days return policy"},{"key":"furniture","endpoint":"https://furniture.mock.shop/api","test":true,"shipsIn":"Ships in 1 week","returns":"30 days return policy"}]'
+
+# Missions keep watching while the page is closed: every hour, re-check due missions (code filter only, no model spend).
+[triggers]
+crons = ["0 * * * *"]
+
+# KV "grokazon-data" (created 2026-10-15) for missions + merchant requests. Bound as DATA in the code.
+# (wrangler dev uses a local stand-in, so local tests never touch the live data.)
+[[kv_namespaces]]
+binding = "DATA"
+id = "YOUR_KV_NAMESPACE_ID"

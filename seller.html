@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=0.8.2"><link rel="stylesheet" href="site.css?v=0.8.2"><link rel="stylesheet" href="store.css?v=0.8.2">
+<title>Seller Central · Grokazon</title>
+<meta name="description" content="Grokazon: the store with Grok built in.">
+<!-- share -->
+<link rel="icon" type="image/png" href="assets/favicon.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Grokazon"><meta property="og:url" content="https://grokazon.app/seller.html">
+<meta property="og:title" content="Seller Central · Grokazon"><meta property="og:description" content="Grokazon: the store with Grok built in.">
+<meta property="og:image" content="https://grokazon.app/assets/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@grokazonapp"><meta name="twitter:image" content="https://grokazon.app/assets/og.jpg">
+<!-- /share -->
+</head>
+<body data-page="seller">
+<nav class="nav" data-on="sell" aria-label="Main"></nav>
+<main class="sc">
+  <h1 style="font-size:30px">Seller Central</h1>
+  <p class="mute" id="scWho" style="margin:6px 0 0"></p>
+  <div class="tabs"><button class="chip on" type="button" data-to="list">List a product</button><button class="chip" type="button" data-to="mine">Your listings</button><button class="chip" type="button" data-to="ship">Orders to ship</button><button class="chip" type="button" data-to="payouts">Payouts</button><button class="chip" type="button" data-to="shopify">Import from Shopify</button><a class="chip" href="sell.html">How selling works</a></div>
+
+  <div class="panel" data-tab="list">
+    <form id="lForm" novalidate>
+      <div class="cols2"><div>
+        <label class="fld">Product title<input name="title" required maxlength="120" placeholder="Walnut desk organiser, 3 trays"></label>
+        <label class="fld">Description<textarea name="description" maxlength="1500" placeholder="What it is, what it is made of, sizes. Plain facts: Grok quotes them to shoppers."></textarea></label>
+        <div class="fld2"><label class="fld">Price (USD)<input name="price" type="number" min="1" max="50000" step="0.01" inputmode="decimal" required placeholder="39.00"></label>
+          <label class="fld">In stock<input name="stock" type="number" min="0" max="99999" inputmode="numeric" placeholder="25"></label></div>
+        <div class="fld2"><label class="fld">Department<select name="dept" id="lDept"></select></label>
+          <label class="fld">Store name<input name="store" maxlength="40" placeholder="Your shop name"></label></div>
+      </div><div>
+        <div class="fld2"><label class="fld">How fast you ship<select name="shipsIn"><option>Ships overnight</option><option selected>Ships in 1-2 business days</option><option>Ships in 3-5 business days</option><option>Ships in 1 week</option><option>Ships in 2 weeks</option></select></label>
+          <label class="fld">Returns<select name="returns"><option>30 days return policy</option><option>14 days return policy</option><option>7 days return policy</option><option>No return policy</option></select></label></div>
+        <p class="mute" style="font-size:13px;margin:10px 0 0">Shipping within a working week earns the X fast badge. Grok only shows what you say here.</p>
+        <label class="fld">Photos of the real product (up to 4)<input type="file" id="lPhotos" accept="image/jpeg,image/png,image/webp" multiple></label>
+        <div class="thumbs-up" id="lThumbs"></div>
+        <p class="err" id="lErr" role="alert"></p>
+        <button class="pill white block" type="submit" id="lGo" style="margin-top:14px">Send for review</button>
+        <p class="mute" style="font-size:12px;margin:10px 0 0">Every listing is reviewed before it goes live. No passwords, keys or bank details are asked for here.</p>
+      </div></div>
+    </form>
+  </div>
+  <div class="panel" data-tab="mine" hidden><div id="mineList"></div></div>
+  <div class="panel" data-tab="payouts" hidden><div id="payBox"></div></div>
+  <div class="panel" data-tab="ship" hidden><p class="mute" style="margin:0">Orders with your products. Ship to the address shown, then mark each item shipped; the buyer sees it (and the tracking number) in Your orders.</p><div id="shipList"></div></div>
+  <div class="panel" data-tab="shopify" hidden>
+    <p class="mute" style="margin:0 0 6px">Already on Shopify? Import your catalogue instead of listing by hand. Add Shopify's free <b style="color:var(--ink);font-weight:500">Headless</b> channel, publish your products to it, and copy its <b style="color:var(--ink);font-weight:500">public</b> Storefront access token.</p>
+    <form id="sForm" novalidate>
+      <div class="fld2"><label class="fld">Store address<input name="domain" required placeholder="yourstore.myshopify.com" autocomplete="off"></label>
+        <label class="fld">Public Storefront token<input name="token" required placeholder="32 letters and numbers" autocomplete="off" spellcheck="false"></label></div>
+      <div class="fld2"><label class="fld">How fast you ship<select name="shipsIn"><option>Ships overnight</option><option selected>Ships in 1-2 business days</option><option>Ships in 3-5 business days</option><option>Ships in 1 week</option></select></label>
+        <label class="fld">Returns<select name="returns"><option>30 days return policy</option><option>14 days return policy</option><option>7 days return policy</option><option>No return policy</option></select></label></div>
+      <p class="err" id="sErr" role="alert"></p>
+      <button class="pill white" type="submit" style="margin-top:14px">Send for review</button>
+      <p class="mute" style="font-size:12px;margin:10px 0 0">Never paste the private Admin API token (it starts with shpat_) or your Shopify login. Grokazon refuses them.</p>
+    </form>
+    <div id="sDone" hidden></div>
+  </div>
+</main>
+<footer class="foot"></footer>
+<script src="config.js?v=0.8.2"></script><script src="common.js?v=0.8.2"></script><script src="app.js?v=0.8.2"></script><script src="store.js?v=0.8.2"></script>
+</body>
+</html>

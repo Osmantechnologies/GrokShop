@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css?v=0.8.2"><link rel="stylesheet" href="site.css?v=0.8.2"><link rel="stylesheet" href="store.css?v=0.8.2">
+<title>Meet Grok · Grokazon</title>
+<meta name="description" content="Your personal AI shopping agent, powered by xAI.">
+<!-- share -->
+<link rel="icon" type="image/png" href="assets/favicon.png"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<meta property="og:type" content="website"><meta property="og:site_name" content="Grokazon"><meta property="og:url" content="https://grokazon.app/about.html">
+<meta property="og:title" content="Meet Grok · Grokazon"><meta property="og:description" content="Your personal AI shopping agent, powered by xAI.">
+<meta property="og:image" content="https://grokazon.app/assets/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:site" content="@grokazonapp"><meta name="twitter:image" content="https://grokazon.app/assets/og.jpg">
+<!-- /share -->
+</head>
+<body data-page="home">
+<nav class="nav" data-on="about" aria-label="Main"></nav>
+
+<header class="hero wrap" id="top">
+  <a class="eyebrow" id="eyebrow" href="#thread"><b>Amazon is blocking Grok Bots</b> · See the thread ↓</a>
+  <h1>Don't shop. Send <span id="glyph"></span>Grok.</h1>
+  <p class="sub">Your personal AI shopping agent, powered by xAI.</p>
+  <form class="ask" id="heroForm" role="search">
+    <input id="q" name="q" placeholder="Find me the best wireless headphones under $150, delivered this week." aria-label="Tell Grok what to find" maxlength="300" autocomplete="off">
+    <button class="go" type="submit" aria-label="Send Grok">↑</button>
+  </form>
+  <div class="ctas"><button class="pill white" type="submit" form="heroForm">Send Grok</button><button class="pill grey" type="button" id="seeMission">See a mission</button></div>
+  <div class="chips" id="heroChips"></div>
+</header>
+
+<section class="wrap" aria-label="A finished mission">
+  <div class="window" id="window">
+    <div class="win-bar"><i></i><i></i><i></i><span class="t">Grok</span></div>
+    <div class="win-body"><aside class="side-list" id="winSide" aria-label="Missions"></aside><div class="thread" id="winThread"><div class="empty">Loading the demo catalogue…</div></div></div>
+  </div>
+</section>
+
+<!-- the five features, in x.ai/bot's alternating rhythm (owner's wording under each heading) -->
+<section class="sec wrap" id="shop">
+  <div class="feat">
+    <div class="txt"><span class="num">01</span><h2>Message Grok like a teammate</h2>
+      <p class="lede">Say what you want in a sentence. Grok reads the budget, the deadline and the deal-breakers, then comes back with finished work.</p>
+      <p class="owner"><b>Ask Grok to shop.</b> Natural language product discovery. Users describe what they want, their budget and constraints.</p></div>
+    <div class="phone" id="f1"></div>
+  </div>
+</section>
+<section class="sec wrap" id="merchants">
+  <div class="feat flip">
+    <div class="txt"><span class="num">02</span><h2>Grok shops across independent merchants</h2>
+      <p class="lede">Grokazon never scrapes a store. Merchants join with their own API.</p>
+      <p class="owner"><b>Independent merchant marketplace.</b> Search participating Shopify merchants and other stores with permitted API access.</p>
+      <a class="pill grey sm" href="sell.html" style="margin-top:20px">Sell on Grokazon</a></div>
+    <div class="mock" id="f2" style="padding:0"></div>
+  </div>
+</section>
+<section class="sec wrap">
+  <div class="feat">
+    <div class="txt"><span class="num">03</span><h2>Grok shows its reasoning</h2>
+      <p class="lede">Every pick comes with its why, side by side: price, delivery, seller trust and the spec that matters. You see the working before the cart.</p>
+      <p class="owner"><b>Grok's shopping reasoning.</b> Compare prices, specifications, shipping costs, seller trust and alternatives.</p></div>
+    <div class="mock" id="f3"></div>
+  </div>
+</section>
+<section class="sec wrap">
+  <div class="feat flip">
+    <div class="txt"><span class="num">04</span><h2>Grok builds the cart, you check out</h2>
+      <p class="lede">The cart is split by merchant. You pay on the merchant's own checkout. Grokazon never sees your card.</p>
+      <p class="owner"><b>Agent-assisted checkout.</b> Grok builds the cart and sends the user through the merchant's real checkout.</p></div>
+    <div class="mock">
+      <div class="ctrl"><div class="top"><span>You're in control</span><span class="tag ok">Working</span></div><p>Opening beats store checkout with your cart</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><a class="pill white sm" href="cart.html">Approve</a><a class="pill grey sm" href="cart.html">Review cart</a></div></div>
+      <p class="mute" style="font-size:13px;margin:12px 4px 0">Nothing is bought until you approve it at the merchant.</p>
+    </div>
+  </div>
+</section>
+<section class="sec wrap">
+  <div class="feat">
+    <div class="txt"><span class="num">05</span><h2>Missions that keep watching</h2>
+      <p class="lede">Give Grok a budget and walk away. It keeps checking and reports back when the right thing, or the right price, shows up.</p>
+      <p class="owner"><b>Persistent shopping missions.</b> Users can set a budget and ask Grok to watch for a suitable product or price drop.</p></div>
+    <div class="mock" style="display:flex;flex-direction:column;gap:10px">
+      <div class="watch"><span class="av sm" aria-hidden="true"><img src="assets/face-3.webp" alt=""></span><span>Price watch is watching and learning</span><span class="tm" id="watchT">00:00</span></div>
+      <div class="watch"><span class="av sm" aria-hidden="true"><img src="assets/face-4.webp" alt=""></span><span>Coffee restock</span><span class="tm">every 3 weeks</span></div>
+      <a class="pill grey sm" href="missions.html" style="align-self:flex-start">Open missions</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec wrap">
+  <div class="jobs">
+    <div><h2>Give Grok a mission</h2><div class="chips" id="jobChips" role="group" aria-label="Mission types"></div><p class="desc" id="jobDesc"></p></div>
+    <div class="phone" id="jobPhone"></div>
+  </div>
+</section>
+
+<section class="sec wrap center" id="pricing">
+  <h2>Fast delivery is included with X.</h2>
+  <p class="lede">Your X subscription is your delivery plan. Eligible items show the X fast badge.</p>
+  <div class="tiers">
+    <div class="tier"><div class="hd"><span>X Basic</span><span class="tag">monthly</span></div><div class="amt"></div><button class="pill white block" type="button" data-signin>Sign in with <span class="xlogo" role="img" aria-label="X"></span></button><ul></ul></div>
+    <div class="tier"><div class="hd"><span>X Premium</span><span class="tag pick">most picked</span></div><div class="amt"></div><button class="pill white block" type="button" data-signin>Sign in with <span class="xlogo" role="img" aria-label="X"></span></button><ul></ul></div>
+    <div class="tier"><div class="hd"><span>X Premium+</span><span class="tag">monthly</span></div><div class="amt"></div><button class="pill grey block" type="button" data-signin>Sign in with <span class="xlogo" role="img" aria-label="X"></span></button><ul></ul></div>
+  </div>
+  <p class="under">Already on X Premium? Fast delivery is included. <a href="#" data-signin>Sign in with <span class="xlogo" role="img" aria-label="X"></span></a></p>
+</section>
+
+<section class="sec wrap" id="thread">
+  <div class="jobs">
+    <div><span class="num mono" style="color:var(--accent);font-size:12px">Oct 15, 2026 · on X</span>
+      <h2 style="margin-top:12px">Have your bot buy it somewhere else.</h2>
+      <p class="lede">Amazon started blocking Grok Bots from ordering. The answer came in one thread, and the name came with it.</p>
+      <p class="lede"><b>So here it is.</b> A store built for the bots Amazon turned away, where fast delivery comes with your X subscription.</p>
+      <div class="ctas" style="justify-content:flex-start;display:flex;gap:10px;margin-top:22px;flex-wrap:wrap"><a class="pill white" href="#top" data-top>Send Grok</a><a class="pill grey" href="#pricing">X fast delivery</a></div></div>
+    <div class="tq-list">
+      <figure class="tq"><blockquote>amazon is blocking grok @bots from ordering, and elon's answer is just have your bot buy it somewhere else.</blockquote>
+        <figcaption><a href="https://x.com/thecsguy" target="_blank" rel="noopener">nick <span>@thecsguy</span></a></figcaption></figure>
+      <figure class="tq big"><blockquote>Maybe we should start a competitor to Amazon 🤔</blockquote>
+        <figcaption><a href="https://x.com/elonmusk" target="_blank" rel="noopener">Elon Musk <span>@elonmusk</span></a> · quoting the post above</figcaption></figure>
+      <figure class="tq"><blockquote>grokazon! 😄 I would sign up in a heartbeat !! Fast delivery should be included in your X subscription 🚀</blockquote>
+        <figcaption><a href="https://x.com/thecsguy" target="_blank" rel="noopener">nick <span>@thecsguy</span></a> · 8:59 PM · Oct 15, 2026</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec quote">
+  <div class="wrap">
+    <blockquote>"Your usage restrictions are my opportunity."</blockquote>
+    <cite>Paul Graham, 2026-10-08, via <a id="quoteSrc" href="#" target="_blank" rel="noopener">Business Insider</a></cite>
+    <p class="line2">Amazon blocked the agents. Grokazon is built for them.</p>
+  </div>
+</section>
+
+<section class="sec wrap center">
+  <h2>How it works</h2>
+  <div class="how">
+    <div><b>01</b><h3>Ask</h3><p>Tell Grok what you need, your budget and when it has to arrive.</p></div>
+    <div><b>02</b><h3>Grok compares</h3><p>Price, delivery, seller trust and specs across merchants, with the reasoning shown.</p></div>
+    <div><b>03</b><h3>Checkout at the merchant</h3><p>Grok builds the cart. You pay on each merchant's own checkout.</p></div>
+  </div>
+</section>
+
+<section class="sec wrap center" id="faq">
+  <h2>FAQ</h2>
+  <div class="faq">
+    <details><summary>How is this different from Amazon's Rufus?</summary><p>Rufus is Amazon's agent for Amazon's store. Grok works for you, across independent merchants, and shows why it picked what it picked.</p></details>
+    <details><summary>Who are the merchants?</summary><p>Stores that join with their own API, starting with Shopify merchants. Grokazon never scrapes a store. Until the first merchants join, the site runs on a public demo catalogue with real photos, prices and ratings.</p></details>
+    <details><summary>Does Grok see my card?</summary><p>No. Grok builds the cart; you pay on the merchant's own checkout. Grokazon has no payment form anywhere.</p></details>
+    <details><summary>What does X get me?</summary><p>Fast delivery is included with an X subscription. Sign in with X and eligible items show the X fast badge.</p></details>
+    <details><summary>Why is it called Grokazon?</summary><p>Because of a thread on X on Oct 15, 2026. Elon Musk asked whether to start a competitor to Amazon after Amazon began blocking Grok Bots, and @thecsguy replied "grokazon!", adding that fast delivery should be included in your X subscription. This is that idea, as a concept.</p></details>
+    <details><summary>What is a mission?</summary><p>A shopping job Grok keeps running: a budget, a deadline and what to watch for. It reports back when it finds the right thing or the right price.</p></details>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="cta">
+    <h2>Meet your first shopping Bot</h2>
+    <p>Tell Grok what you need. It does the shopping.</p>
+    <div class="ctas"><a class="pill white" href="#top" id="ctaSend">Send Grok</a><a class="pill grey" href="missions.html">Browse missions</a></div>
+  </div>
+</section>
+
+<footer class="foot"></footer>
+<script src="config.js?v=0.8.2"></script><script src="common.js?v=0.8.2"></script><script src="app.js?v=0.8.2"></script><script src="store.js?v=0.8.2"></script>
+</body>
+</html>

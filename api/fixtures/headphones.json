@@ -1,0 +1,48 @@
+{
+  "q": "Find me the best wireless headphones under $150, delivered this week.",
+  "engine": "grok-4.3",
+  "thread": [
+    "reading your constraints: budget $150, fast delivery",
+    "searching 70 merchants in the demo catalogue",
+    "comparing 3 matches on price, shipping, seller trust and rating",
+    "checked beats flex at 49.99 ships 1-2 days",
+    "airpods at 129.99 ships 3-5 days",
+    "both under 150 and wireless",
+    "skipped over-budget max",
+    "2 picks"
+  ],
+  "picks": [
+    {
+      "id": 107,
+      "rank": 1,
+      "why": "beats flex at 49.99 with 1-2 business days shipping, 4.24 rating, 7 days return"
+    },
+    {
+      "id": 100,
+      "rank": 2,
+      "why": "apple airpods at 129.99 with 3-5 business days shipping, 4.15 rating, no returns"
+    }
+  ],
+  "compare": [
+    {
+      "id": 107,
+      "merchant": "Beats store",
+      "price": "$49.99",
+      "delivery": "Ships in 1-2 business days",
+      "trust": "4.24★ (3 reviews) · 7 days return policy · 1 year warranty",
+      "spec": "12 hours battery life"
+    },
+    {
+      "id": 100,
+      "merchant": "Apple store",
+      "price": "$129.99",
+      "delivery": "Ships in 3-5 business days",
+      "trust": "4.15★ (3 reviews) · no return policy · 3 year warranty",
+      "spec": "easy pairing high-quality sound"
+    }
+  ],
+  "note": "cart's ready, checkout at beats store when you are",
+  "considered": 3,
+  "ms": 14632,
+  "saved": "2026-10-15, live grok-4.3 answer"
+}
